@@ -5,17 +5,17 @@
 </head>
 <body>
 <?php
-	if (array_key_exists("fname", $_GET))
+	if (array_key_exists("fname", $_REQUEST))
 	{
-		$fname = trim($_GET["fname"]);
+		$fname = trim($_REQUEST["fname"]);
 	}
 	else
 	{
 		$fname = "begin.txt";
 	}
-	if (array_key_exists("uploadData", $_GET))
+	if (array_key_exists("uploadData", $_POST))
 	{
-		$text = trim($_GET["uploadData"]);
+		$text = trim($_POST["uploadData"]);
 		
 		$file = fopen("scenes/" . $fname, "w");
 		

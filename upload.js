@@ -7,8 +7,9 @@ function SubmitSave()
 	var f_name = $("input#filename").val();
 	var dataOut = JSON.stringify(g_GameScreen.currentScene);
 	var ajaxSettings = {
-			url: ("upload2.php?fname=" + f_name
-				+ "&uploadData=" + dataOut),
+			type: "POST",
+			url: ("upload2.php"),
+			data: ("fname=" + f_name + "&uploadData=" + dataOut),
 			success: function(result)
 				{
 					$("#outputT").html("Saved to " + f_name);
