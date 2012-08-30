@@ -1,6 +1,15 @@
 var g_GameScreen;
 var g_GameState;
 
+function escapeHtml(unsafe) {
+  return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+}
+
 function SubmitSave()
 {
 	$("#outputT").html("Saving...");
@@ -26,16 +35,26 @@ function SubmitSave()
 
 function GenList(objectTree)
 {
+	if (typeof objectTree === 'string')
+	{
+		return "";
+	}
     var output = "<ul>";
     
     for (key in objectTree)
     {
         var obj = objectTree[key]
-        output += "<li>" + key + "</li>";
-        if (obj.length != undefined && obj.length > 0)
+        output += "<li>" + key;
+        if (typeof obj === 'string')
         {
-            output += GenList(obj);
+        	output += " = <input type='text' value=\""+ escapeHtml(obj)+"\"></input>"
         }
+        else if (typeof obj === 'number')
+        {
+        	output += " = <input type='text' value=\""+ obj+"\"></input>"
+        }
+        output += "</li>";
+        output += GenList(obj);
     }
     
     return output + "</ul>";

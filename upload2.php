@@ -35,7 +35,7 @@ You don't have to hit F5 if you just hit submit query. But if you leave and retu
 	<p id='listOut' class='listOut'></p>
 
 	Filename: <?php echo "<input type=\"textbox\" id='filename' value=\"$fname\"/>"; ?><br/>
-	<input type="button" id="submitButt"/>
+	<input type="button" id="submitButt" value="Save Changes"/>
 	
 	
 	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
