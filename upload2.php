@@ -25,20 +25,15 @@
 		touch($fname);
 		echo "Data Saved to " .  $fname . ".<br/>";
 	}
-	else
-	{
-		echo "Loaded " . $fname . ".<br/>";
-		$text = file_get_contents($fname);
-	}
 ?>
-Please, please, please hit F5 each time you come to this page. It won't refresh right, and I really don't know why.<br/>
-You don't have to hit F5 if you just hit submit query. But if you leave and return. F5 it.<br>
+<p id="outputT"></p>
+<p>Please, please, please hit F5 each time you come to this page. It won't refresh right, and I really don't know why.<br/>
+You don't have to hit F5 if you just hit submit query. But if you leave and return. F5 it.</p>
 
 	<p id='listOut' class='listOut'></p>
 
 	Filename: <?php echo "<input type=\"textbox\" id='filename' value=\"$fname\"/>"; ?><br/>
 	<form name="myWebForm" action="upload.php?fname=scenes/begin.txt" method="post">
-	<textarea name="uploadField" rows="10" cols="150"><?php echo $text; ?></textarea><br/>
 	<?php echo "<input type=\"hidden\" name=\"fname\" id='fname' value=\"$fname\"/>"; ?><br/>
 	<input type="submit" />
 	</form>

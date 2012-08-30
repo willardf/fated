@@ -1,14 +1,24 @@
+var g_data;
+
 function updateText()
 {
-    var fname = $("input#filename").val();
-    $("form#myWebForm").attr("action", "upload.php?fname="+fname);
-    $("textarea").load(fname);
-}
-
-function newFile()
-{
-    $("textarea").html("This file doesn't seem to exist.\n");
-    $("textarea").append("If you submit, it will be created.");
+    var f_name = $("input#filename").val();
+    $("form#myWebForm").attr("action", "upload.php?fname="+f_name);
+    var ajaxSettings = {
+			async: false,
+			url: (f_name),
+			success: function(result)
+				{
+					g_data = result;
+				}, 
+			error: function(event, request, settings, error)
+				{
+					$("outputT").html("AJAXError:" + error);
+				},
+			dataType: "json" 
+		};
+	$.ajax(ajaxSettings);
+    $("p#outputT").html("Loaded " + f_name);
 }
 
 function GenList(objectTree)
@@ -29,11 +39,13 @@ function GenList(objectTree)
     
 }
 
-$(document).ready(function()
+$(document).ready(
+function()
 {
-    $("textarea").ajaxError(newFile);
-    $("#filename").focusout(updateText);
-    
-    var list = GenList(JSON.parse($("textarea").val()));
+	updateText();
+	$("#filename").focusout(updateText);
+
+	var list = GenList(g_data);
     $("p#listOut").html(list);
-});
+}
+);
