@@ -1,0 +1,10 @@
+{ 
+	"label" : "skills",
+	"data" : 
+	{
+		"groupname" : 
+		[
+			{ "pip" : -1, "name" : "PowerName", "power" : 5}
+		]
+	}
+}

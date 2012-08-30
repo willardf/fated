@@ -1,0 +1,10 @@
+{
+	"label” : "equipment",
+	"data" :
+		{
+		"groupname" :
+		[
+			{ name : “Name”, "power" : 1, "wdef" : 1, "mdef" : 1, "special" : 0.1, "health" : 10 }
+		]
+	}
+}

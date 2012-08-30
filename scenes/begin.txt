@@ -1,0 +1,32 @@
+{
+	"p_Events" :
+	[
+	{"dialogue" : "Oh, why hello, there!"},
+	{
+		"label" : "before", 
+		"choice" : "What is your favourite color?",
+		"options" :
+		[
+			{ "text" : "Red", "label" : "Red"},
+			{ 
+				"conditions" : [
+					{"key" : "seengreen", "val" : 0}
+					], 
+				"text" : "Green", "label" : "Green"
+			},
+			{ "text" : "Blue", "label" : "Blue"}
+		]
+	},
+	
+	{"label" : "Green", "dialogue" : "That wasn't actually a question."},
+	{"setflag" : "seengreen", "dialogue" : "It's not green. Try again."},
+	{"jump" : "before"},
+	
+	{"label" : "Red", "scenefile" : "scene2.txt", "sceneevent" : "Red"},
+	
+	{"label" : "Blue", "scenefile" : "scene2.txt"},
+	
+	{"label" : "end", "dialogue" : "Goodbye!"},
+	{"end" : "yes"}
+	]
+}

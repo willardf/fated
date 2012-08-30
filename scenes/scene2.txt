@@ -1,0 +1,29 @@
+{
+	"p_Events" :
+	[
+	{"dialogue" : "Well done. You're in a whole new scene."},
+	{
+		"choice" : "What is your favourite aminal?",
+		"options" :
+		[
+			{ "text" : "Geraff", "label" : "Red"},
+			{ "text" : "Munky", "label" : "Green"},
+			{ "text" : "Poobadoo", "label" : "Blue"}
+		]
+	},
+	
+	{"label" : "Green", "dialogue" : "That wasn't actually a question."},
+	{"dialogue" : "It's green."},
+	{"jump" : "end"},
+	
+	{"label" : "Red", "dialogue" : "That wasn't actually a question in scene 2."},
+	{"dialogue" : "It's red."},
+	{"jump" : "end"},
+	
+	{"label" : "Blue", "dialogue" : "That wasn't actually a question."},
+	{"dialogue" : "It's blue."},
+	
+	{"label" : "end", "dialogue" : "Goodbye!"},
+	{"end" : "yes"}
+	]
+}
