@@ -1,24 +1,26 @@
-var g_data;
+var g_GameScreen;
+var g_GameState;
 
-function updateText()
+function SubmitSave()
 {
-    var f_name = $("input#filename").val();
-    $("form#myWebForm").attr("action", "upload.php?fname="+f_name);
-    var ajaxSettings = {
-			async: false,
-			url: (f_name),
+	$("#outputT").html("Saving...");
+	var f_name = $("input#filename").val();
+	var dataOut = JSON.stringify(g_GameScreen.currentScene);
+	var ajaxSettings = {
+			url: ("upload2.php?fname=" + f_name
+				+ "&uploadData=" + dataOut),
 			success: function(result)
 				{
-					g_data = result;
+					$("#outputT").html("Saved to " + f_name);
+					$("#outputT").append("<br/>" + result);
 				}, 
 			error: function(event, request, settings, error)
 				{
 					$("outputT").html("AJAXError:" + error);
-				},
-			dataType: "json" 
+				} 
 		};
+		
 	$.ajax(ajaxSettings);
-    $("p#outputT").html("Loaded " + f_name);
 }
 
 function GenList(objectTree)
@@ -42,10 +44,19 @@ function GenList(objectTree)
 $(document).ready(
 function()
 {
-	updateText();
-	$("#filename").focusout(updateText);
+	var f_name = $("input#filename").val();
+	g_GameState = new GameState();
+	g_GameScreen = new GameScreen(f_name);
+	$("p#outputT").html("Loaded " + f_name);
+	
+	$("#filename").focusout(function(){
+			var f_name = $("input#filename").val();
+			g_gamescreen.Load(f_name);
+			$("p#outputT").html("Loaded " + f_name);
+		});
+	$("#submitButt").click(SubmitSave)
 
-	var list = GenList(g_data);
+	var list = GenList(g_GameScreen.currentScene);
     $("p#listOut").html(list);
 }
 );

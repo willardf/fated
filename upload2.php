@@ -11,19 +11,21 @@
 	}
 	else
 	{
-		$fname = "scenes/begin.txt";
+		$fname = "begin.txt";
 	}
-	if (array_key_exists("uploadField", $_POST))
+	if (array_key_exists("uploadData", $_GET))
 	{
-		$text = trim($_POST["uploadField"]);
+		$text = trim($_GET["uploadData"]);
 		
-		$file = fopen($fname, "w");
+		$file = fopen("scenes/" . $fname, "w");
 		
-		fwrite($file, $text);
+		echo "Wrote ";
+		echo fwrite($file, $text);
+		echo " bytes.<br/>\r\n";
 			
 		fclose($file);
 		touch($fname);
-		echo "Data Saved to " .  $fname . ".<br/>";
+		die("Success");
 	}
 ?>
 <p id="outputT"></p>
@@ -33,12 +35,12 @@ You don't have to hit F5 if you just hit submit query. But if you leave and retu
 	<p id='listOut' class='listOut'></p>
 
 	Filename: <?php echo "<input type=\"textbox\" id='filename' value=\"$fname\"/>"; ?><br/>
-	<form name="myWebForm" action="upload.php?fname=scenes/begin.txt" method="post">
-	<?php echo "<input type=\"hidden\" name=\"fname\" id='fname' value=\"$fname\"/>"; ?><br/>
-	<input type="submit" />
-	</form>
+	<input type="button" id="submitButt"/>
+	
 	
 	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="js/data/GameState.js"></script>
+	<script type="text/javascript" src="js/screens/GameScreen.js"></script>
 	<script type="text/javascript" src="upload.js"></script>
 	
 	Story files:<br/>
