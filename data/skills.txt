@@ -3,8 +3,8 @@
 	"data" : 
 	{
 		"groupname" : 
-		[
-			{ "pip" : -1, "name" : "PowerName", "power" : 5}
-		]
+		{
+			"PowerName" : { "pip" : -1, "power" : 5, "speed" : 1}
+		}
 	}
 }
