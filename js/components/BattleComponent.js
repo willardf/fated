@@ -1,6 +1,7 @@
 BattleComponent.prototype.NextTurn = function()
 {
-	
+	// TODO: Does this function need to do anything else? 
+	++this.turnCounter;
 }
 
 /*
@@ -12,9 +13,19 @@ BattleComponent.prototype.NextTurn = function()
 BattleComponent.prototype.Update = function()
 {
 	// TODO: Select skill menu
-	// if doSkill == true
-	// Next turn
-	// else, blahblahblah
+	if (InputManager.IsKeyUniqueDown(InputManager.c_SpaceBar))
+	{
+		// FIXME: This doSkill obviously won't work. 
+		// Something about menus and what got selected needs to be all up ins.
+		if (this.doSkill())
+		{
+			this.NextTurn();
+		}
+		else
+		{
+			// Error: Not enough PiPs, watwat?
+		}
+	}
 }
 
 /*
@@ -27,14 +38,14 @@ BattleComponent.prototype.Render = function()
 {
 	
 	// FIXME: For testing, represents turn meter thing
-	$("outputB").html(JSON.stringify(this.turnorder));
+	$("outputB").html(JSON.stringify(this.turnOrder));
 }
 
 // Validates skill, returns success
 BattleComponent.prototype.DoSkill = function(skillname)
 {
-	var skilldata = g_GameManager.GameData.LookUpSkill(skillname);
-	var current = this.turnorder[this.turncounter];
+	var skilldata = g_GameManager.GameData.GetSkillData(skillname);
+	var current = this.turnOrder[this.turnCounter];
 	
 	// TODO? We currently assume skills are only limited by pips. This may change.
 	if (current.pip >= skilldata.pip)
@@ -54,25 +65,25 @@ BattleComponent.prototype.DoSkill = function(skillname)
 	return true;
 }
 
-// NOTE: TURNCOUNTER IS NOT TO BE TRUSTED AFTER THIS FUNCTION.
+// NOTE: turnCounter IS NOT TO BE TRUSTED AFTER THIS FUNCTION.
 // THIS FUNCTION SHOULD BE USED ONLY AT THE END OF A TURN.
 BattleComponent.prototype.MoveTurn = function(amount)
 {
 	if (amount == 0) return;	// Not necessary, but wastes less time
 	
 	// Remove current turn-taker, save for later
-	var temp = this.turnorder.splice(this.turncounter, 1)[0];
+	var temp = this.turnOrder.splice(this.turnCounter, 1)[0];
 	
-	var dest = this.turncounter - amount;
+	var dest = this.turnCounter - amount;
 	if (dest < 0)
 	{
-		dest += this.turnorder.length; 
-		// Let's assume we will never move more than one length of turnorder (solid assumption)
+		dest += this.turnOrder.length; 
+		// Let's assume we will never move more than one length of turnOrder (solid assumption)
 		// We might need to think about mechanics if this becomes unsafe. (Effectively haste for a turn? sorta?)
 	}
 	
 	// Annnd, reintroduce current turn-taker.
-	this.turnorder.splice(dest, 0, temp);
+	this.turnOrder.splice(dest, 0, temp);
 }
 
 /* Constructor
@@ -81,15 +92,15 @@ BattleComponent.prototype.MoveTurn = function(amount)
 function BattleComponent(teamL, teamR)
 {
 	// make a copy of teamL, concat teamR to it.
-	this.turnorder = $.merge($.merge([], teamL), teamR);
-	this.turncounter = 0;
+	this.turnOrder = $.merge($.merge([], teamL), teamR);
+	this.turnCounter = 0;
 	
 	// Randomize order
-	for (var i = 0; i < this.turnorder.length; ++i)
+	for (var i = 0; i < this.turnOrder.length; ++i)
 	{
-		var random = Math.floor(Math.random() * this.turnorder.length);
-		var temp = this.turnorder[i];
-		this.turnorder[i] = this.turnorder[random];
-		this.turnorder[random] = temp;
+		var random = Math.floor(Math.random() * this.turnOrder.length);
+		var temp = this.turnOrder[i];
+		this.turnOrder[i] = this.turnOrder[random];
+		this.turnOrder[random] = temp;
 	}
 }

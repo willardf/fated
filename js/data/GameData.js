@@ -30,9 +30,19 @@ GameData.prototype.Load = function(filename)
 	$.ajax(ajaxSettings);
 }
 
+GameData.prototype.GetSkillData(key)
+{
+	return this.skills[key];
+}
+
+GameData.prototype.GetTalentData(key)
+{
+	return this.talents[key];
+}
+
 // Default constructor for now.
 function GameData()
 {
 	//this.Load("equipment.txt");
-	//this.Load("skills.txt");
+	this.Load("skills.txt");
 }
