@@ -25,8 +25,10 @@ CharacterEquipment.prototype.GetHealth = function()
 
 function CharacterEquipment()
 {
-	this.head = {};
-	this.phand = {};
-	this.ohand = {};
-	this.feet = {};
+	var empty = {"power" : 0, "wdef" : 0,
+		"mdef" : 0, "special" : 0, "health" : 0};s
+	this.head = empty;
+	this.phand = empty;
+	this.ohand = empty;
+	this.feet = empty;
 }

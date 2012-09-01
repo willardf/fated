@@ -4,7 +4,7 @@
 	{
 		"groupname" : 
 		{
-			"PowerName" : { "pip" : -1, "power" : 5, "speed" : 1}
+			"PowerName" : { "pip" : -1, "power" : 5, "magical" : true, "speed" : 1}
 		}
 	}
 }

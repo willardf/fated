@@ -1,7 +1,8 @@
 BattleComponent.prototype.NextTurn = function()
-{
-	// TODO: Does this function need to do anything else? 
+{ 
 	++this.turnCounter;
+	
+	// TODO: Handle effects
 }
 
 /*
@@ -42,7 +43,7 @@ BattleComponent.prototype.Render = function()
 }
 
 // Validates skill, returns success
-BattleComponent.prototype.DoSkill = function(skillname)
+BattleComponent.prototype.DoSkill = function(skillname, target)
 {
 	var skilldata = g_GameManager.GameData.GetSkillData(skillname);
 	var current = this.turnOrder[this.turnCounter];
@@ -57,9 +58,26 @@ BattleComponent.prototype.DoSkill = function(skillname)
 		return false;
 	}
 	
-	// TODO: Find target
-	// TODO: Calculate "damage", and apply (negative damage = healing)
+	// TODO: Immediate Interrupts
+	
+	var damage = current.GetPower() + skilldata.power;
+	if (skilldata.magical)
+	{
+		damage -= target.GetMDef();
+	} 
+	else
+	{
+		damage -= target.GetWDef();
+	}
+	damage *= (Math.random() * 0.5) + 0.75;
+	
+	target.currHealth -= damage;
+	
+	// TODO: Calculate specials and apply
 	// TODO: Calculate effects and apply
+	// TODO: Immediate reactions
+	// TODO: Handle deaths
+	// TODO: Add animations to queue
 	
 	this.MoveTurn(skilldata.speed);
 	return true;
@@ -86,6 +104,18 @@ BattleComponent.prototype.MoveTurn = function(amount)
 	this.turnOrder.splice(dest, 0, temp);
 }
 
+BattleComponent.prototype.RandomizeTurnOrder = function()
+{
+	// Randomize order
+	for (var i = 0; i < this.turnOrder.length; ++i)
+	{
+		var random = Math.floor(Math.random() * this.turnOrder.length);
+		var temp = this.turnOrder[i];
+		this.turnOrder[i] = this.turnOrder[random];
+		this.turnOrder[random] = temp;
+	}
+}
+
 /* Constructor
  * Expects player's team instances to be on the right. 
  */
@@ -95,12 +125,5 @@ function BattleComponent(teamL, teamR)
 	this.turnOrder = $.merge($.merge([], teamL), teamR);
 	this.turnCounter = 0;
 	
-	// Randomize order
-	for (var i = 0; i < this.turnOrder.length; ++i)
-	{
-		var random = Math.floor(Math.random() * this.turnOrder.length);
-		var temp = this.turnOrder[i];
-		this.turnOrder[i] = this.turnOrder[random];
-		this.turnOrder[random] = temp;
-	}
+	this.RandomizeTurnOrder();
 }
