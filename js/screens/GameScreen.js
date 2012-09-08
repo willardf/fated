@@ -28,16 +28,6 @@ GameScreen.prototype.Load = function(filename)
 }
 
 /*
-* NextEvent
-* Loads the next event in this.currentScene
-*/
-GameScreen.prototype.NextEvent = function()
-{
-	++g_GameState.eventCnt;
-	this.LoadEvent();
-}
-
-/*
 * Update
 * Implements GameManager's Screen.Update interface.
 * Checks for inputs based on duck-typed currentEvent. Reacts.
@@ -49,16 +39,16 @@ GameScreen.prototype.Update = function()
 		// Advance
 		if (g_InputManager.IsKeyUniqueDown(g_InputManager.c_SpaceBar))
 		{
-			this.NextEvent();
+			this.JumpToEvent();
 		}
 	}
-	else if (this.choiceMenu != undefined)
+	else if (this.component != undefined)
 	{
-		this.choiceMenu.Update();
-		if (this.choiceMenu.finished)
+		this.component.Update();
+		if (this.component.finished)
 		{
-			this.JumpToEvent(this.currentEvent.options[this.choiceMenu.selected].label);
-			this.choiceMenu = undefined;
+			this.JumpToEvent(this.component.GetResultLabel());
+			this.component = undefined;
 		}
 	}
 }
@@ -77,11 +67,19 @@ GameScreen.prototype.LoadEvent = function()
 	{
 		g_GameState.AddFlag(currentEvent.setflag, true);
 	}
+	if ("giveskill" in currentEvent)
+	{
+		g_GameState.AddSkill(currentEvent.giveskill);
+	}
 	
 	// Begin Mutually exclusive checks
 	if ("choice" in currentEvent)
 	{
-		this.choiceMenu = new MenuComponent(currentEvent.choice, currentEvent.options);
+		this.component = new MenuComponent(currentEvent.choice, currentEvent.options);
+	}
+	else if ("battle" in currentEvent)
+	{
+		this.component = new BattleComponent(currentEvent.enemies, g_GameState.playerTeam);
 	}
 	else if ("scenefile" in currentEvent)
 	{
@@ -115,9 +113,10 @@ GameScreen.prototype.Render = function()
 	{
 		$("p#outputM").html(this.currentEvent.dialogue);
 	}
-	else if (this.choiceMenu != undefined)
+	else if (this.component != undefined
+		&& this.component.Render != undefined)
 	{
-		this.choiceMenu.Render();
+		this.component.Render();
 	}
 }
 
@@ -127,7 +126,11 @@ GameScreen.prototype.Render = function()
 */
 GameScreen.prototype.JumpToEvent = function(label)
 {
-	if (isNaN(label))
+	if (label == undefined)
+	{
+		++g_GameState.eventCnt;
+	}
+	else if (isNaN(label))
 	{
 		g_GameState.eventCnt = 0;
 		while (true)

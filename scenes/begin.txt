@@ -1,9 +1,12 @@
 {
 	"p_Events" :
 	[
+	{"giveskill" : "Power Name", "dialogue" : "It's too dangerous to go alone. Take this!"},
+	{"giveskill" : "Blunder", "dialogue" : "Also one of these!"},
+	{"battle" : "true", "enemies" : ["Raider"]},
 	{"dialogue" : "Oh, why hello, there!"},
 	{
-		"label" : "before", 
+		"label" : "before",
 		"choice" : "What is your favourite color?",
 		"options" :
 		[

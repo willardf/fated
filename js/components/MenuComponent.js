@@ -13,6 +13,11 @@
 where key is a key in g_GameState.flags
 */
 
+MenuComponent.prototype.GetResultLabel = function()
+{
+	return this.options[this.selected].label;
+}
+
 /*
 * Update
 * Implements Component.Update

@@ -26,6 +26,16 @@ GameState.prototype.AddFlag = function(flag, val)
 	this.flags[flag]++;// = val;
 }
 
+GameState.prototype.AddSkill = function(skillname)
+{
+	if (!(skillname in this.skillsAvailable))
+	{
+		this.skillsAvailable.push(skillname);
+	}
+	//HACK
+	this.playerCharacter.skills.push(skillname);
+}
+
 /*
  * Default constructor
  */
@@ -33,6 +43,11 @@ function GameState()
 {
 	this.flags = new Object();
 	
+	this.playerCharacter = new Character();
+	this.playerTeam = new Array();
+	this.playerTeam.push(this.playerCharacter);
+	
+	this.skillsAvailable = new Array();
 	this.money = 0;
-	this.inventory = [];
+	this.inventory = new Array();
 }

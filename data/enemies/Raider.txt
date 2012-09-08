@@ -1,0 +1,26 @@
+{
+	"label" : "Raider",
+	"data" :
+	{
+		"health" : 35,
+		"currenthealth" : 35,
+		"pip" : 4,
+		"power" : 7,
+		"wdef" : 7,
+		"mdef" : 7,
+		"special" : 0.0,
+		
+		"level" : 1,
+		
+		"equipment" : {
+			"head" : "Empty",
+			"phand" : "Empty",
+			"ohand" : "Empty",
+			"feet" : "Empty"
+			},
+		
+		"skills" : ["Blunder", "Mash"],
+		
+		"talents" : []
+	}
+}

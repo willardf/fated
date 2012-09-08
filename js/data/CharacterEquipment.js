@@ -1,34 +1,52 @@
 CharacterEquipment.prototype.GetPower = function()
 {
-	return this.head.power + this.phand.power + this.ohand.power + this.feet.power;
+	var head = g_GameManager.GameData.GetEquipmentData(this.head);
+	var phand = g_GameManager.GameData.GetEquipmentData(this.phand);
+	var ohand = g_GameManager.GameData.GetEquipmentData(this.ohand);
+	var feet = g_GameManager.GameData.GetEquipmentData(this.feet);
+	return head.power + phand.power + ohand.power + feet.power;
 }
 
 CharacterEquipment.prototype.GetWDef = function()
 {
-	return this.head.wdef + this.phand.wdef + this.ohand.wdef + this.feet.wdef;
+	var head = g_GameManager.GameData.GetEquipmentData(this.head);
+	var phand = g_GameManager.GameData.GetEquipmentData(this.phand);
+	var ohand = g_GameManager.GameData.GetEquipmentData(this.ohand);
+	var feet = g_GameManager.GameData.GetEquipmentData(this.feet);
+	return head.wdef + phand.wdef + ohand.wdef + feet.wdef;
 }
 
 CharacterEquipment.prototype.GetMDef = function()
 {
-	return this.head.mdef + this.phand.mdef + this.ohand.mdef + this.feet.mdef;
+	var head = g_GameManager.GameData.GetEquipmentData(this.head);
+	var phand = g_GameManager.GameData.GetEquipmentData(this.phand);
+	var ohand = g_GameManager.GameData.GetEquipmentData(this.ohand);
+	var feet = g_GameManager.GameData.GetEquipmentData(this.feet);
+	return head.mdef + phand.mdef + ohand.mdef + feet.mdef;
 }
 
 CharacterEquipment.prototype.GetSpecial = function()
 {
-	return this.head.special + this.phand.special + this.ohand.special + this.feet.special;
+	var head = g_GameManager.GameData.GetEquipmentData(this.head);
+	var phand = g_GameManager.GameData.GetEquipmentData(this.phand);
+	var ohand = g_GameManager.GameData.GetEquipmentData(this.ohand);
+	var feet = g_GameManager.GameData.GetEquipmentData(this.feet);
+	return head.special + phand.special + ohand.special + feet.special;
 }
 
 CharacterEquipment.prototype.GetHealth = function()
 {
-	return this.head.health + this.phand.health + this.ohand.health + this.feet.health;
+	var head = g_GameManager.GameData.GetEquipmentData(this.head);
+	var phand = g_GameManager.GameData.GetEquipmentData(this.phand);
+	var ohand = g_GameManager.GameData.GetEquipmentData(this.ohand);
+	var feet = g_GameManager.GameData.GetEquipmentData(this.feet);
+	return head.health + phand.health + ohand.health + feet.health;
 }
 
 function CharacterEquipment()
 {
-	var empty = {"power" : 0, "wdef" : 0,
-		"mdef" : 0, "special" : 0, "health" : 0};s
-	this.head = empty;
-	this.phand = empty;
-	this.ohand = empty;
-	this.feet = empty;
+	this.head = "Empty";
+	this.phand = "Empty";
+	this.ohand = "Empty";
+	this.feet = "Empty";
 }

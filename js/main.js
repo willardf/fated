@@ -21,7 +21,7 @@ function init()
 
 function update(frameTime)
 {
-	$("#outputB").html(Math.round(1/frameTime) + "FPS");
+	$("p#fps").html(Math.round(1/frameTime) + "FPS");
 	$("#outputR").html(JSON.stringify(g_GameState));
 	
 	// Update "static global" things

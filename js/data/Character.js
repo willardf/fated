@@ -1,6 +1,4 @@
-/*
- * TODO: Very unfinished 
- */
+
 Character.prototype.GetPower = function()
 {
 	return this.power + this.equipment.GetPower();
@@ -42,6 +40,13 @@ function Character()
 	
 	this.skillclass = "All";
 	this.equipment = new CharacterEquipment();
-	this.skills = [];	// Holds string indexes to GameManager.GameData.getSkillData(key);
-	this.talents = [];	// Ditto, but getTalentData(key);
+	
+	this.skillsLimit = 3;
+	this.skills = new Array();	// Holds string indexes to GameManager.GameData.getSkillData(key);
+	
+	this.skillsSelectedLimit = 5;
+	this.skillsSelected = new Array();
+	
+	
+	this.talents = new Array();	// Ditto, but getTalentData(key);
 }

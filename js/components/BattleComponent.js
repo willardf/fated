@@ -1,8 +1,24 @@
 BattleComponent.prototype.NextTurn = function()
 { 
-	++this.turnCounter;
+	this.turnCounter = (this.turnCounter + 1) % this.turnOrder.length;
 	
 	// TODO: Handle effects
+	
+	var current = this.turnOrder[this.turnCounter];
+	var prompt = "Choose a skill";
+	var skillItems = new Array();
+	for (skillidx in current.skills)
+	{
+		var skillname = current.skills[skillidx];
+		// "PowerName" : { "pip" : -1, "power" : 5, "magical" : true, "speed" : 1}
+		var skillData = g_GameManager.GameData.GetSkillData(skillname);
+		var newItem = {
+				"text" : skillname + " [" + skillData.pip + "]", 
+				"label" : skillname
+			}
+		skillItems.push(newItem);
+	}
+	this.menu = new MenuComponent(prompt, skillItems);
 }
 
 /*
@@ -13,20 +29,24 @@ BattleComponent.prototype.NextTurn = function()
 // TODO: This...
 BattleComponent.prototype.Update = function()
 {
-	// TODO: Select skill menu
-	if (InputManager.IsKeyUniqueDown(InputManager.c_SpaceBar))
+	if (this.menu != undefined)
 	{
-		// FIXME: This doSkill obviously won't work. 
-		// Something about menus and what got selected needs to be all up ins.
-		if (this.doSkill())
+		this.menu.Update();
+		if (this.menu.finished)
 		{
-			this.NextTurn();
-		}
-		else
-		{
-			// Error: Not enough PiPs, watwat?
+			var TARGAT = this.turnOrder[this.turnCounter];
+			if (this.DoSkill(this.menu.GetResultLabel(), TARGAT))
+			{
+				this.NextTurn();
+			}
+			else
+			{
+				// Error: Not enough PiPs, watwat?
+				this.menu.finished = false;				
+			}
 		}
 	}
+	
 }
 
 /*
@@ -37,9 +57,13 @@ BattleComponent.prototype.Update = function()
 // TODO: This...
 BattleComponent.prototype.Render = function()
 {
-	
-	// FIXME: For testing, represents turn meter thing
-	$("outputB").html(JSON.stringify(this.turnOrder));
+	$("#outputT").html("Battle");
+	if (this.menu != undefined)
+	{
+		this.menu.Render();
+	}
+		// FIXME: For testing, represents turn meter thing
+	$("#outputB").html(JSON.stringify(this.turnOrder));
 }
 
 // Validates skill, returns success
@@ -69,9 +93,10 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	{
 		damage -= target.GetWDef();
 	}
-	damage *= (Math.random() * 0.5) + 0.75;
+	// Range = .75 to 1.75
+	damage *= Math.random() + 0.75;
 	
-	target.currHealth -= damage;
+	target.currenthealth -= Math.round(damage);
 	
 	// TODO: Calculate specials and apply
 	// TODO: Calculate effects and apply
@@ -116,14 +141,28 @@ BattleComponent.prototype.RandomizeTurnOrder = function()
 	}
 }
 
+BattleComponent.prototype.GetResultLabel = function()
+{
+	// FIXME:
+	return undefined;
+}
+
 /* Constructor
- * Expects player's team instances to be on the right. 
+ * Expects player's team references to be on the right. 
  */
 function BattleComponent(teamL, teamR)
 {
-	// make a copy of teamL, concat teamR to it.
-	this.turnOrder = $.merge($.merge([], teamL), teamR);
-	this.turnCounter = 0;
+	var enemies = new Array();
+	for (enemy in teamL)
+	{
+		var data = g_GameManager.GameData.GetEnemyData(teamL[enemy]);
+		enemies.push(data);
+	}
 	
+	this.finished = false;
+	// make a copy of teamL, concat teamR to it.
+	this.turnOrder = $.merge($.merge([], enemies), teamR);
+	this.turnCounter = -1;
 	this.RandomizeTurnOrder();
+	this.NextTurn();
 }

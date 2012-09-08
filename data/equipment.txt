@@ -2,9 +2,7 @@
 	"label" : "equipment",
 	"data" :
 		{
-		"groupname" :
-		[
-			{ "name" : "Weapon", "power" : 1, "wdef" : 1, "mdef" : 1, "special" : 0.1, "health" : 10 }
-		]
-	}
+			"Empty" : { "group" : "all", "power" : 0, "wdef" : 0, "mdef" : 0, "special" : 0, "health" : 0},
+			"Sowrd" : { "group" : "weapon", "power" : 1, "wdef" : 1, "mdef" : 1, "special" : 0.1, "health" : 10 }
+		}
 }
