@@ -28,7 +28,7 @@ GameState.prototype.AddFlag = function(flag, val)
 
 GameState.prototype.AddSkill = function(skillname)
 {
-	if (!(skillname in this.skillsAvailable))
+	if (this.skillsAvailable.indexOf(skillname) == -1)
 	{
 		this.skillsAvailable.push(skillname);
 	}

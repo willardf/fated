@@ -5,6 +5,16 @@
 // Event Handlers
 InputManager.prototype.KeyDown = function(e)
 {
+	// TODO: For testing only!
+	if (e.which == 65)
+	{
+		for (e in g_GameManager.GameData.skills)
+		{
+			g_GameState.AddSkill(e);
+		}
+	}
+	// END: TODO
+	
 	this.i_KeysDownCurr[e.which] = true;
 }
 InputManager.prototype.KeyUp = function(e)
