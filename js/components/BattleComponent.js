@@ -14,7 +14,8 @@ BattleComponent.prototype.NextTurn = function()
 		var skillData = g_GameManager.GameData.GetSkillData(skillname);
 		var newItem = {
 				"text" : skillname + " [" + skillData.pip + "]", 
-				"label" : skillname
+				"label" : skillname,
+				toString : function(){return this.text;}
 			}
 		skillItems.push(newItem);
 	}
@@ -35,7 +36,7 @@ BattleComponent.prototype.Update = function()
 		if (this.menu.finished)
 		{
 			var TARGAT = this.turnOrder[this.turnCounter];
-			if (this.DoSkill(this.menu.GetResultLabel(), TARGAT))
+			if (this.DoSkill(this.menu.GetResult().label, TARGAT))
 			{
 				this.NextTurn();
 			}
@@ -72,10 +73,10 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	var skilldata = g_GameManager.GameData.GetSkillData(skillname);
 	var current = this.turnOrder[this.turnCounter];
 	
-	// TODO? We currently assume skills are only limited by pips. This may change.
-	if (current.pip >= skilldata.pip)
+	// TODO? We currently assume skills are only limited by pips. This may change. 
+	if (current.pip >= -skilldata.pip)
 	{
-		current.pip -= skilldata.pip;
+		current.pip += skilldata.pip;
 	}
 	else
 	{
@@ -84,19 +85,23 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	
 	// TODO: Immediate Interrupts
 	
-	var damage = current.GetPower() + skilldata.power;
-	if (skilldata.magical)
+	var damage = 0;
+	if (skilldata.power > 0)
 	{
-		damage -= target.GetMDef();
-	} 
-	else
-	{
-		damage -= target.GetWDef();
+		damage = current.GetPower() + skilldata.power;
+		if (skilldata.magical)
+		{
+			damage -= target.GetMDef();
+		} 
+		else
+		{
+			damage -= target.GetWDef();
+		}
+		// Range = .75 to 1.75
+		damage *= Math.random() + 0.75;
+		
+		target.currenthealth -= Math.round(damage);
 	}
-	// Range = .75 to 1.75
-	damage *= Math.random() + 0.75;
-	
-	target.currenthealth -= Math.round(damage);
 	
 	// TODO: Calculate specials and apply
 	// TODO: Calculate effects and apply

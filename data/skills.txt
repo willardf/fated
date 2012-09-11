@@ -2,8 +2,56 @@
 	"label" : "skills",
 	"data" : 
 	{
-			"Power Name" : { "pip" : 0, "power" : 5, "magical" : true, "speed" : 1},
-			"Blunder" : { "pip" : 1, "power" : 1, "magical" : false, "speed" : 0},
-			"Mash" : { "pip" : -1, "power" : 2, "magical" : false, "speed" : -1}
+		"Power Name" : { "pip" : 0, "power" : 5, "magical" : true, "speed" : 1},
+		"Blunder" : { "pip" : 1, "power" : 1, "magical" : false, "speed" : 0},
+		"Mash" : { "pip" : -1, "power" : 2, "magical" : false, "speed" : -1},
+		"Draw Blood" : 
+		{
+			"pip" : 3, 
+			"power" : 0, 
+			"magical" : false, 
+			"speed" : 0, 
+			"effects" : 
+			[
+				{"ongoing" : 1, "end" : "random" }
+			]
+		},
+		"Knife in the Dark" : 
+		{ 
+			"pip" : 1, 
+			"power" : 5, 
+			"magical" : true, 
+			"speed" : 1
+		},
+		"Stab" : 
+		{ 
+			"pip" : 1, 
+			"power" : 3, 
+			"magical" : true, 
+			"speed" : 1
+		},
+		"Smash and Grab" : 
+		{ 
+			"pip" : -1, 
+			"power" : 2, 
+			"magical" : true, 
+			"speed" : 1, 
+			"effects" : 
+			[
+				{"piptrade" : 1}
+			]
+		},
+		"Midnight's Blade" : 
+		{ 
+			"pip" : -7, 
+			"power" : 5, 
+			"magical" : true, 
+			"speed" : 1, 
+			"effects" : 
+			[
+				{"criticalup" : 0.5, "end" : "none"}, 
+				{"damage" : 6, "self" : true}
+			]
+		}
 	}
 }

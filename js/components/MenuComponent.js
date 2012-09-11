@@ -5,17 +5,17 @@
 * menuitems: 
 [
 	{
-		"text" : string, 
-		"label" : string, 
+		toString() 
+		(optional, recommended) "label" : string, 
 		(optional) "conditions" : ["key" : ##, ...]
 	}, ...
 ]
 where key is a key in g_GameState.flags
 */
 
-MenuComponent.prototype.GetResultLabel = function()
+MenuComponent.prototype.GetResult = function()
 {
-	return this.options[this.selected].label;
+	return this.options[this.selected];
 }
 
 /*
@@ -55,11 +55,11 @@ MenuComponent.prototype.Render = function()
 	{
 		var option = this.options[obj];
 		
-		$("p#outputM").append("</br>" + option.text);
+		$("p#outputM").append("</br>" + option);
 		
 	}
 	$("p#outputM").append("</br>Selected: " +
-        this.options[this.selected].text);
+        this.options[this.selected]);
 }
 
 /*

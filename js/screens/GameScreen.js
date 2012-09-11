@@ -3,7 +3,6 @@
 * Uses AJAX to load a given file that should contain
 * scene data.
 * Note: Appends "scenes/", so filename should be relative to that path.
-* TODO: error doesn't actually seem to work.
 */
 GameScreen.prototype.Load = function(filename)
 {
@@ -16,9 +15,9 @@ GameScreen.prototype.Load = function(filename)
 				{
 					this.currentScene = result;
 				}, 
-			error: function(event, request, settings, error)
+			error: function(event, error)
 				{
-					$("outputM").html("AJAXError:" + error);
+					$("p#error").html(filename + ": AJAXError=" + error);
 				},
 			dataType: "json" 
 		};
@@ -47,7 +46,7 @@ GameScreen.prototype.Update = function()
 		this.component.Update();
 		if (this.component.finished)
 		{
-			this.JumpToEvent(this.component.GetResultLabel());
+			this.JumpToEvent(this.component.GetResult().label);
 			this.component = undefined;
 		}
 	}
@@ -75,11 +74,18 @@ GameScreen.prototype.LoadEvent = function()
 	// Begin Mutually exclusive checks
 	if ("choice" in currentEvent)
 	{
+		for (o in currentEvent.options)
+		{
+			currentEvent.options[o].ToString = function()
+			{
+				return this.text;
+			}
+		}
 		this.component = new MenuComponent(currentEvent.choice, currentEvent.options);
 	}
 	else if ("battle" in currentEvent)
 	{
-		this.component = new BattleComponent(currentEvent.enemies, g_GameState.playerTeam);
+		this.component = new BattleStartComponent(currentEvent.enemies); 
 	}
 	else if ("scenefile" in currentEvent)
 	{

@@ -32,8 +32,6 @@ GameState.prototype.AddSkill = function(skillname)
 	{
 		this.skillsAvailable.push(skillname);
 	}
-	//HACK
-	this.playerCharacter.skills.push(skillname);
 }
 
 /*

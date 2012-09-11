@@ -49,11 +49,13 @@ MainMenuScreen.prototype.Unload = function()
 // Default constructor
 function MainMenuScreen()
 {
+	var newToString = function(){ return this.text; };
 	var menuoptions = 
 		[
-		{"text" : "New Game", "label" : 0},
-		{"text" : "Load Game", "label" : 1},
-		{"text" : "Exit", "label" : 2}
-		]
+		{"text" : "New Game", "label" : 0, "toString" : newToString},
+		{"text" : "Load Game", "label" : 1, "toString" : newToString},
+		{"text" : "Exit", "label" : 2, "toString" : newToString}
+		];
+	
 	this.choiceMenu = new MenuComponent("Main Menu", menuoptions);
 }

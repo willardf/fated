@@ -1,7 +1,6 @@
 // Calls update callback, sets up next refresh tick. 
 TimeManager.prototype.Update = function()
 {
-	clearTimeout(this.timerVar);
 	
 	this.oldTime = this.newTime;
 	this.newTime = new Date().getTime();
@@ -9,7 +8,7 @@ TimeManager.prototype.Update = function()
 	
 	this.updateFunct(this.lastFrame);
 	
-	this.timerVar = setTimeout(do_TimeManager_Update, 1000 / c_FPS);
+	setTimeout(do_TimeManager_Update, 1000 / c_FPS);
 }
 
 // Creates an indirection to preserve "this" in the timer callback

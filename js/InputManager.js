@@ -56,6 +56,7 @@ function InputManager()
 	this.i_KeysDownLast = new Array();
 
 	this.c_SpaceBar = 32;
+	this.c_Enter = 13;
 	this.c_UpArrow = 38;
 	this.c_DownArrow = 40;
 

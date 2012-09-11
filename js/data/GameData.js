@@ -24,9 +24,9 @@ GameData.prototype.LoadAppend = function(filename, destContext)
 				{
 					this[result.label] = result.data;
 				}, 
-			error: function(event, request, settings, error)
+			error: function(event, error)
 				{
-					$("outputM").html("AJAXError:" + error);
+					$("p#errors").html(filename + ": AJAXError=" + error + "</br>");
 				},
 			dataType: "json" 
 		};
@@ -40,9 +40,9 @@ GameData.prototype.GetEnemyData = function(key)
 	{
 		var filename = "enemies/" + key + ".txt";
 		this.LoadAppend(filename, this.enemies);
-		var eChar = new Character();
-		this.enemies[key] = $.extend(eChar, this.enemies[key]);
-		this.enemies[key].equipment.__proto__ = new CharacterEquipment().__proto__; 
+		
+		this.enemies[key] = $.extend(new Character(), this.enemies[key]);
+		this.enemies[key].equipment = $.extend(new CharacterEquipment(), this.enemies[key].equipment);
 	}
 	var copy = $.extend(true, {}, this.enemies[key]);
 	return copy;
