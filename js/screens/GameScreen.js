@@ -85,7 +85,7 @@ GameScreen.prototype.LoadEvent = function()
 	}
 	else if ("battle" in currentEvent)
 	{
-		this.component = new BattleStartComponent(currentEvent.enemies); 
+		this.component = new BattleStartComponent(currentEvent); 
 	}
 	else if ("scenefile" in currentEvent)
 	{

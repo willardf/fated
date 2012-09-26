@@ -1,10 +1,18 @@
 BattleComponent.prototype.NextTurn = function()
 { 
+	// TODO: Check battle triggers
+	for (t in this.triggers)
+	{
+		var trigger = this.triggers[t];
+		
+	}
+	
 	this.turnCounter = (this.turnCounter + 1) % this.turnOrder.length;
-	
-	// TODO: Handle effects
-	
 	var current = this.turnOrder[this.turnCounter];
+	
+	this.EvalEffects(current, true);
+	
+	
 	var prompt = "Choose a skill";
 	var skillItems = new Array();
 	for (skillidx in current.skills)
@@ -27,7 +35,6 @@ BattleComponent.prototype.NextTurn = function()
 * Implements Component.Update
 * Polls for input, reacts.
 */
-// TODO: This...
 BattleComponent.prototype.Update = function()
 {
 	if (this.menu != undefined)
@@ -55,7 +62,6 @@ BattleComponent.prototype.Update = function()
 * Implements Component.Render
 * Displays text.
 */
-// TODO: This...
 BattleComponent.prototype.Render = function()
 {
 	$("#outputT").html("Battle");
@@ -86,7 +92,7 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	// TODO: Immediate Interrupts
 	
 	var damage = 0;
-	if (skilldata.power > 0)
+	if (skilldata.power != 0)
 	{
 		damage = current.GetPower() + skilldata.power;
 		if (skilldata.magical)
@@ -99,12 +105,20 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 		}
 		// Range = .75 to 1.75
 		damage *= Math.random() + 0.75;
-		
-		target.currenthealth -= Math.round(damage);
+
+		// TODO: Handle other damage mods (resist, weakness, absorb
+			
+		if (skilldata.power > 0 && damage > 0
+			|| skilldata.power < 0 && damage < 0)
+		{
+			target.currenthealth -= Math.round(damage);
+		}
 	}
 	
 	// TODO: Calculate specials and apply
-	// TODO: Calculate effects and apply
+	
+	this.ApplyEffects(skilldata.effects, current, target);
+	
 	// TODO: Immediate reactions
 	// TODO: Handle deaths
 	// TODO: Add animations to queue
@@ -113,25 +127,149 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	return true;
 }
 
+BattleComponent.prototype.EvalEffects = function(recipient, save)
+{
+	var effectsList = recipient.effects;
+	var eIdx;
+	for (eIdx = 0; eIdx < effectsList.length; eIdx++)
+	{
+		var effect = effectsList[eIdx];
+		
+		if ("damage" in effect)
+		{
+			recipient.currentHealth -= effect.damage;
+		}
+		if ("power" in effect)
+		{
+			var damage = sender.GetPower() + effect.power;
+			damage -= skilldata.magical ? target.GetMDef() : target.GetWDef();
+			recipient.currentHealth -= damage;
+		}
+		if ("piptrade" in effect && recipient.pip > 0)
+		{
+			--recipient.pip;
+			++sender.pip;
+		}
+		
+		if (save)
+		{
+			var remove 
+			if (effect.ongoing >= 1)
+			{
+				--effect.ongoing;
+				remove = effect.ongoing <= 0;
+			}
+			else if (effect.ongoing < 1)
+			{
+				remove = (Math.random() < effect.ongoing);
+			}
+			
+			if (remove)
+			{
+				effectsList.splice(eIdx, 1);
+				eIdx--;
+			}
+		}
+	}
+}
+
+BattleComponent.prototype.ApplyEffects = function(effectsList, current, target)
+{
+	for (eIdx in effectsList)
+	{
+		var effect = $.extend({}, effectsList[eIdx]);
+		
+		var sender = ("self" in effect) ? target : current;
+		var recipient = ("self" in effect) ? current : target;
+		
+		if ("ongoing" in effect)
+		{
+			if ("power" in effect)
+			{
+				var damage = sender.GetPower() + effect.power;
+				damage -= skilldata.magical ? target.GetMDef() : target.GetWDef();
+				
+				if (effect.power > 0 && damage < 0
+					|| effect.power < 0 && damage > 0)
+					{
+						damage = 0;
+					}
+				
+				effect.damage = damage;
+				effect.power = undefined;
+			}
+			recipient.effects.push(effect);
+		}
+		else
+		{
+			if ("damage" in effect)
+			{
+				recipient.currentHealth -= effect.damage;
+			}
+			if ("power" in effect)
+			{
+				var damage = sender.GetPower() + effect.power;
+				damage -= skilldata.magical ? target.GetMDef() : target.GetWDef();
+				recipient.currentHealth -= damage;
+			}
+			if ("piptrade" in effect && recipient.pip > 0)
+			{
+				--recipient.pip;
+				++sender.pip;
+			}
+		}
+	}
+}
+
 // NOTE: turnCounter IS NOT TO BE TRUSTED AFTER THIS FUNCTION.
 // THIS FUNCTION SHOULD BE USED ONLY AT THE END OF A TURN.
 BattleComponent.prototype.MoveTurn = function(amount)
 {
 	if (amount == 0) return;	// Not necessary, but wastes less time
 	
-	// Remove current turn-taker, save for later
-	var temp = this.turnOrder.splice(this.turnCounter, 1)[0];
-	
 	var dest = this.turnCounter - amount;
-	if (dest < 0)
+	while (dest < 0)
 	{
-		dest += this.turnOrder.length; 
+		dest += this.turnOrder.length;
 		// Let's assume we will never move more than one length of turnOrder (solid assumption)
 		// We might need to think about mechanics if this becomes unsafe. (Effectively haste for a turn? sorta?)
 	}
 	
+	// Remove current turn-taker, save for later
+	var temp = this.turnOrder.splice(this.turnCounter, 1)[0];
+	
 	// Annnd, reintroduce current turn-taker.
 	this.turnOrder.splice(dest, 0, temp);
+}
+
+BattleComponent.prototype.GetResultLabel = function()
+{
+	// FIXME:
+	return undefined;
+}
+
+/* Constructor
+ * Expects player's team references to be on the right. 
+ */
+function BattleComponent(teamL, allies, triggers)
+{
+	var enemies = new Array();
+	for (enemy in teamL)
+	{
+		var data = g_GameManager.GameData.GetEnemyData(teamL[enemy]);
+		enemies.push(data);
+	}
+
+	this.triggers = triggers;	
+	this.enemies = enemies;
+	this.allies = allies;
+	
+	this.finished = false;
+	// make a copy of teamL, concat teamR to it.
+	this.turnOrder = $.merge($.merge([], enemies), allies);
+	this.turnCounter = -1;
+	this.RandomizeTurnOrder();
+	this.NextTurn();
 }
 
 BattleComponent.prototype.RandomizeTurnOrder = function()
@@ -144,30 +282,4 @@ BattleComponent.prototype.RandomizeTurnOrder = function()
 		this.turnOrder[i] = this.turnOrder[random];
 		this.turnOrder[random] = temp;
 	}
-}
-
-BattleComponent.prototype.GetResultLabel = function()
-{
-	// FIXME:
-	return undefined;
-}
-
-/* Constructor
- * Expects player's team references to be on the right. 
- */
-function BattleComponent(teamL, teamR)
-{
-	var enemies = new Array();
-	for (enemy in teamL)
-	{
-		var data = g_GameManager.GameData.GetEnemyData(teamL[enemy]);
-		enemies.push(data);
-	}
-	
-	this.finished = false;
-	// make a copy of teamL, concat teamR to it.
-	this.turnOrder = $.merge($.merge([], enemies), teamR);
-	this.turnCounter = -1;
-	this.RandomizeTurnOrder();
-	this.NextTurn();
 }

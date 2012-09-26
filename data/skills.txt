@@ -13,7 +13,7 @@
 			"speed" : 0, 
 			"effects" : 
 			[
-				{"ongoing" : 1, "end" : "random" }
+				{"ongoing" : 0.50, "damage" : 1}
 			]
 		},
 		"Knife in the Dark" : 
@@ -49,7 +49,7 @@
 			"speed" : 1, 
 			"effects" : 
 			[
-				{"criticalup" : 0.5, "end" : "none"}, 
+				{"ongoing" : true, "upspecial" : 0.5}, 
 				{"damage" : 6, "self" : true}
 			]
 		}

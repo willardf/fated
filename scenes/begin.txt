@@ -3,7 +3,15 @@
 	[
 	{"giveskill" : "Power Name", "dialogue" : "It's too dangerous to go alone. Take this!"},
 	{"giveskill" : "Blunder", "dialogue" : "Also one of these!"},
-	{"battle" : "true", "enemies" : ["Raider"]},
+	{
+		"battle" : "true", 
+		"enemies" : ["Raider"], 
+		"triggers" : 
+		[
+			{"player.hp" : 0, "end" : true}, 
+			{"raider.hp" : 0, "label" : "Blue"}
+		]
+	},
 	{"dialogue" : "Oh, why hello, there!"},
 	{
 		"label" : "before",

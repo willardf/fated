@@ -12,7 +12,7 @@ BattleStartComponent.prototype.Update = function()
 		if (this.component.finished)
 		{
 			g_GameState.playerCharacter.skills = this.component.GetResultList();
-			this.component = new BattleComponent(this.enemies, g_GameState.playerTeam);
+			this.component = new BattleComponent(this.enemies, g_GameState.playerTeam, this.triggers);
 		}
 	}
 	else
@@ -43,9 +43,11 @@ BattleStartComponent.prototype.Render = function()
 /* Default Constructor
  *  
  */
-function BattleStartComponent(enemies)
-{
-	this.enemies = enemies;
+function BattleStartComponent(battleinfo)
+{	
+	this.enemies = battleinfo.enemies;
+	this.triggers = battleinfo.triggers;
+	
 	this.finished = false;
 	this.component = new SelectorComponent("Choose your battle skills", g_GameState.skillsAvailable, g_GameState.playerCharacter.skillsLimit);
 }

@@ -47,6 +47,6 @@ function Character()
 	this.skillsSelectedLimit = 5;
 	this.skillsSelected = new Array();
 	
-	
 	this.talents = new Array();	// Ditto, but getTalentData(key);
+	this.effects = new Array();
 }
