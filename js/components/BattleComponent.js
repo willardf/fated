@@ -42,16 +42,16 @@ BattleComponent.prototype.EvalTriggers = function()
 			{
 				if (split[1] == "hp")
 				{
-					if (target.currenthealth < trigger[condition])
+					if (target.currenthealth <= trigger[condition])
 					{
 						this.result = trigger;
 						complete = true;
+						this.finished = true;
 						break;
 					} 
 				}
 			}
 		}
-		this.finished = complete;
 	}
 }
 
