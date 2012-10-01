@@ -46,19 +46,19 @@ MenuComponent.prototype.Update = function()
 * Implements Component.Render
 * Displays text.
 */
-MenuComponent.prototype.Render = function()
+MenuComponent.prototype.Render = function(renderer)
 {
 	if (this.finished) return;
 
-	$("p#outputM").html(this.prompt);
+	renderer.drawText(this.prompt);
 	for (obj in this.options)
 	{
 		var option = this.options[obj];
 		
-		$("p#outputM").append("</br>" + option);
+		renderer.drawText("</br>" + option);
 		
 	}
-	$("p#outputM").append("</br>Selected: " +
+	renderer.drawText("</br>Selected: " +
         this.options[this.selected]);
 }
 

@@ -5,6 +5,7 @@ var g_GameManager;
 var g_GameState;
 var g_InputManager;
 var g_TimeManager;
+var g_Renderer;
 
 // Stuff run before game starts
 function init()
@@ -13,7 +14,8 @@ function init()
 	g_GameState = new GameState();
 	g_InputManager = new InputManager();
 	g_TimeManager = new TimeManager();
-	
+	g_Renderer = new Renderer();
+		
 	// Start the game
 	var newMainMenu = new MainMenuScreen();
 	g_GameManager.Push(newMainMenu);
@@ -27,7 +29,8 @@ function update(frameTime)
 	g_GameManager.Update();
 	g_InputManager.Update();
 
-	g_GameManager.Render();
+	g_GameManager.Render(g_Renderer);
+	g_Renderer.Finish();
 }
 
 $(document).ready(

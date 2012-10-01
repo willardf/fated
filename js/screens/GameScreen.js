@@ -113,16 +113,16 @@ GameScreen.prototype.LoadEvent = function()
 * Render
 * Implements GameManager's Screen.Render interface.
 */
-GameScreen.prototype.Render = function()
+GameScreen.prototype.Render = function(renderer)
 {
 	if ("dialogue" in this.currentEvent)
 	{
-		$("p#outputM").html(this.currentEvent.dialogue);
+		renderer.drawText(this.currentEvent.dialogue);
 	}
 	else if (this.component != undefined
 		&& this.component.Render != undefined)
 	{
-		this.component.Render();
+		this.component.Render(renderer);
 	}
 }
 

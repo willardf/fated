@@ -60,19 +60,19 @@ GameManager.prototype.Clear = function()
 * Render
 * Implements GameManager's Screen.Render interface.
 */
-GameManager.prototype.Render = function()
+GameManager.prototype.Render = function(renderer)
 {
 	// TODO: This should actually raise an error
 	if (this.i_stack.length == 0)
 	{
-		$("p#outputM").html("GameManager Empty");
+		renderer.drawText("GameManager Empty");
 		return;
 	}
 
 	var top = this.i_stack[this.i_stack.length - 1];
 	if (top.Render != undefined)
 	{
-		top.Render();
+		top.Render(renderer);
 	}
 }
 

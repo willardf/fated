@@ -58,17 +58,17 @@ SelectorComponent.prototype.Update = function()
 * Implements Component.Render
 * Displays text. Strongly depends on MenuComponent
 */
-SelectorComponent.prototype.Render = function()
+SelectorComponent.prototype.Render = function(renderer)
 {
 	if (this.finished) return;
-	this.menu.Render();
+	this.menu.Render(renderer);
 	
-	$("#outputM").append("<p>Items Chosen<br/>");
+	renderer.drawText("<p>Items Chosen<br/>");
 	for (x in this.output)
 	{
-		$("#outputM").append((1 + parseInt(x)) + ": " + this.output[x] + "<br/>");		
+		renderer.drawText((1 + parseInt(x)) + ": " + this.output[x] + "<br/>");		
 	}
-	$("#outputM").append("</p>");
+	renderer.drawText("</p>");
 	// TODO: Some kind of selection coloring overlay or something.
 }
 

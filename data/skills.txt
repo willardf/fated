@@ -49,7 +49,7 @@
 			"speed" : 1, 
 			"effects" : 
 			[
-				{"ongoing" : true, "upspecial" : 0.5}, 
+				{"ongoing" : true, "self" : true, "upspecial" : 0.5}, 
 				{"damage" : 6, "self" : true}
 			]
 		}

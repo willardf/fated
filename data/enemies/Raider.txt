@@ -2,15 +2,16 @@
 	"label" : "Raider",
 	"data" :
 	{
+		"name" : "Raider",
 		"health" : 35,
 		"currenthealth" : 35,
 		"pip" : 4,
-		"power" : 7,
+		"power" : 12,
 		"wdef" : 7,
-		"mdef" : 7,
+		"mdef" : 3,
 		"special" : 0.0,
 		
-		"level" : 1,
+		"level" : 2,
 		
 		"equipment" : {
 			"head" : "Empty",

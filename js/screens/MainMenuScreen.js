@@ -16,9 +16,9 @@ MainMenuScreen.prototype.Update = function()
 * Render
 * Implements GameManager's Screen.Render interface.
 */
-MainMenuScreen.prototype.Render = function()
+MainMenuScreen.prototype.Render = function(renderer)
 {
-	this.choiceMenu.Render();
+	this.choiceMenu.Render(renderer);
 }
 
 /*

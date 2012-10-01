@@ -26,6 +26,7 @@ Character.prototype.GetHealth = function()
 
 function Character()
 {
+	this.name = "Character"
 	this.health = 30;
 	this.currenthealth = 30;
 	this.pip = 4;

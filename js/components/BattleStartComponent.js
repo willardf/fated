@@ -25,18 +25,23 @@ BattleStartComponent.prototype.Update = function()
 	}
 }
 
+BattleStartComponent.prototype.GetResult = function()
+{
+	return this.component.GetResultLabel();
+}
+
 /*
 * Render
 * Implements Component.Render
 * Displays text.
 */
-BattleStartComponent.prototype.Render = function()
+BattleStartComponent.prototype.Render = function(renderer)
 {
 	if (this.finished) return;
 	
 	if (this.component != undefined)
 	{
-		this.component.Render();
+		this.component.Render(renderer);
 	}
 }
 
