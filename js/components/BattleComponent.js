@@ -38,6 +38,9 @@ BattleComponent.prototype.EvalTriggers = function()
 					} 					
 				}
 			}
+			
+			// TODO: this needs to be expanded into a function that handles triggers
+			// More like events in a scene. Not all triggers will end a battle. 
 			if (target != undefined)
 			{
 				if (split[1] == "hp")
