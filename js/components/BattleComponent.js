@@ -1,62 +1,33 @@
 BattleComponent.prototype.NextTurn = function()
 { 
-	this.EvalTriggers()
+	this.EvalTriggers();
 	
 	this.turnCounter = (this.turnCounter + 1) % this.turnOrder.length;
 	var current = this.turnOrder[this.turnCounter];
 	
 	this.EvalEffects(current, true);
 	
-	this.SelectSkill()
-}
+	this.SelectSkill();
+};
 
 BattleComponent.prototype.EvalTriggers = function()
 {
 	for (t in this.triggers)
 	{
 		var trigger = this.triggers[t];
-		var complete = false; 
 		for (condition in trigger)
 		{
-			if (condition == "label") continue;
-			var split = condition.split(".");
-			var target = undefined
-			if (split[0] == "_player")
+			trigger.turnOrder = this.turnOrder;
+			if (new Condition(trigger).GetResult())
 			{
-				target = g_GameState.playerCharacter
-			}
-			else
-			{
-				for (idx in this.turnOrder)
-				{
-					var temp = this.turnOrder[idx]
-					if (temp == g_GameState.playerCharacter) continue;
-					if (temp.name == split[0]) 
-					{
-						target = temp;
-						break;
-					} 					
-				}
-			}
-			
-			// TODO: this needs to be expanded into a function that handles triggers
-			// More like events in a scene. Not all triggers will end a battle. 
-			if (target != undefined)
-			{
-				if (split[1] == "hp")
-				{
-					if (target.currenthealth <= trigger[condition])
-					{
-						this.result = trigger;
-						complete = true;
-						this.finished = true;
-						break;
-					} 
-				}
+				this.result = trigger;
+				complete = true;
+				this.finished = true;
+				break;
 			}
 		}
 	}
-}
+};
 
 BattleComponent.prototype.SelectSkill = function()
 {
@@ -72,16 +43,16 @@ BattleComponent.prototype.SelectSkill = function()
 				"text" : skillname + " [" + skillData.pip + "]", 
 				"label" : skillname,
 				toString : function(){return this.text;}
-			}
+			};
 		skillItems.push(newItem);
 	}
 	this.menu = new MenuComponent(prompt, skillItems);
-	this.menu.label = "skill"
-}
+	this.menu.label = "skill";
+};
 
 BattleComponent.prototype.SelectTarget = function()
 {
-	var current = this.turnOrder[this.turnCounter];
+	//var current = this.turnOrder[this.turnCounter];
 	var prompt = "Choose a target";
 	var targetItems = new Array();
 	for (idx in this.turnOrder)
@@ -93,12 +64,12 @@ BattleComponent.prototype.SelectTarget = function()
 				"text" : targetName, 
 				"label" : idx,
 				toString : function(){return this.text;}
-			}
+			};
 		targetItems.push(newItem);
 	}
 	this.menu = new MenuComponent(prompt, targetItems);
-	this.menu.label = "target"
-}
+	this.menu.label = "target";
+};
 
 /*
 * Update
@@ -107,14 +78,14 @@ BattleComponent.prototype.SelectTarget = function()
 */
 BattleComponent.prototype.Update = function()
 {
-	if (this.menu != undefined)
+	if (this.menu !== undefined)
 	{
 		this.menu.Update();
 		if (this.menu.finished)
 		{
 			if (this.menu.label == "skill")
 			{
-				this.skillSelected = this.menu.GetResult().label
+				this.skillSelected = this.menu.GetResult().label;
 				var current = this.turnOrder[this.turnCounter];
 				var skilldata = g_GameManager.GameData.GetSkillData(this.skillSelected);
 				if (current.pip < -skilldata.pip)
@@ -123,7 +94,7 @@ BattleComponent.prototype.Update = function()
 				}
 				else
 				{
-					this.SelectTarget()	
+					this.SelectTarget();
 				}
 			}
 			else if (this.menu.label == "target")
@@ -136,13 +107,12 @@ BattleComponent.prototype.Update = function()
 				else
 				{
 					// Error: Something went wrong?
-					this.SelectSkill()
+					this.SelectSkill();
 				}				
 			}
 		}
-	}
-	
-}
+	}	
+};
 
 /*
 * Render
@@ -158,7 +128,7 @@ BattleComponent.prototype.Render = function(renderer)
 	}
 		// FIXME: For testing, represents turn meter thing
 	$("#outputB").html(JSON.stringify(this.turnOrder));
-}
+};
 
 // Validates skill, returns success
 BattleComponent.prototype.DoSkill = function(skillname, target)
@@ -199,7 +169,7 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 			|| skilldata.power < 0 && damage < 0)
 		{
 			target.currenthealth -= damage;
-			g_Renderer.LogText(target.name + " takes " + damage + " damage.")
+			g_Renderer.LogText(target.name + " takes " + damage + " damage.");
 		}
 	}
 	
@@ -213,7 +183,7 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	
 	this.MoveTurn(skilldata.speed);
 	return true;
-}
+};
 
 BattleComponent.prototype.EvalEffects = function(recipient, save)
 {
@@ -228,7 +198,7 @@ BattleComponent.prototype.EvalEffects = function(recipient, save)
 		{
 			recipient.currentHealth -= effect.damage;
 			g_Renderer.LogText(recipient.name + " takes " + effect.damage + " damage.");
-			flavor = " damaging effect "
+			flavor = " damaging effect ";
 		}
 		if ("power" in effect)
 		{
@@ -236,19 +206,19 @@ BattleComponent.prototype.EvalEffects = function(recipient, save)
 			damage -= skilldata.magical ? target.GetMDef() : target.GetWDef();
 			recipient.currentHealth -= damage;
 			g_Renderer.LogText(recipient.name + " takes " + effect.damage + " damage.");
-			flavor = " damaging effect "
+			flavor = " damaging effect ";
 		}
 		if ("piptrade" in effect && recipient.pip > 0)
 		{
 			--recipient.pip;
 			++sender.pip;
 			g_Renderer.LogText(sender.name + " takes "+effect.piptrade+" pip(s)");
-			flavor = " piptrade effect "
+			flavor = " piptrade effect ";
 		}
 		
 		if (save)
 		{
-			var remove 
+			var remove;
 			if (effect.ongoing >= 1)
 			{
 				--effect.ongoing;
@@ -267,7 +237,7 @@ BattleComponent.prototype.EvalEffects = function(recipient, save)
 			}
 		}
 	}
-}
+};
 
 BattleComponent.prototype.ApplyEffects = function(effectsList, current, target)
 {
@@ -318,7 +288,7 @@ BattleComponent.prototype.ApplyEffects = function(effectsList, current, target)
 			}
 		}
 	}
-}
+};
 
 // NOTE: turnCounter IS NOT TO BE TRUSTED AFTER THIS FUNCTION.
 // THIS FUNCTION SHOULD BE USED ONLY AT THE END OF A TURN.
@@ -339,12 +309,12 @@ BattleComponent.prototype.MoveTurn = function(amount)
 	
 	// Annnd, reintroduce current turn-taker.
 	this.turnOrder.splice(dest, 0, temp);
-}
+};
 
 BattleComponent.prototype.GetResultLabel = function()
 {
 	return this.result;
-}
+};
 
 /* Constructor
  * Expects player's team references to be on the right. 
@@ -355,7 +325,7 @@ function BattleComponent(teamL, allies, triggers)
 	for (enemy in teamL)
 	{
 		var data = g_GameManager.GameData.GetEnemyData(enemy);
-		data.name = teamL[enemy]
+		data.name = teamL[enemy];
 		enemies.push(data);
 	}
 
@@ -381,4 +351,4 @@ BattleComponent.prototype.RandomizeTurnOrder = function()
 		this.turnOrder[i] = this.turnOrder[random];
 		this.turnOrder[random] = temp;
 	}
-}
+};

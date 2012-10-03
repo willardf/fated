@@ -2,14 +2,14 @@
 * Load
 * Uses AJAX to load a given file that should contain
 * scene data.
-* Note: Appends "scenes/", so filename should be relative to that path.
+* Note: Appends "data/scenes/", so filename should be relative to that path.
 */
 GameScreen.prototype.Load = function(filename)
 {
 	$("#outputM").html("Loading...");
 	var ajaxSettings = {
 			async: false,
-			url: ("scenes/" + filename), 
+			url: ("data/scenes/" + filename), 
 			context: this,
 			success: function(result)
 				{
@@ -24,7 +24,7 @@ GameScreen.prototype.Load = function(filename)
 		
 	$.ajax(ajaxSettings);
 	g_GameState.scenefile = filename;
-}
+};
 
 /*
 * Update
@@ -50,7 +50,7 @@ GameScreen.prototype.Update = function()
 			this.component = undefined;
 		}
 	}
-}
+};
 
 /*
 * LoadEvent
@@ -58,7 +58,7 @@ GameScreen.prototype.Update = function()
 */
 GameScreen.prototype.LoadEvent = function()
 {
-	var currentEvent = this.currentScene.p_Events[g_GameState.eventCnt];
+ 	var currentEvent = this.currentScene.p_Events[g_GameState.eventCnt];
 	this.currentEvent = currentEvent;
 	
 	// Non-mutually exclusive checks
@@ -79,7 +79,7 @@ GameScreen.prototype.LoadEvent = function()
 			currentEvent.options[o].ToString = function()
 			{
 				return this.text;
-			}
+			};
 		}
 		this.component = new MenuComponent(currentEvent.choice, currentEvent.options);
 	}
@@ -107,7 +107,7 @@ GameScreen.prototype.LoadEvent = function()
 	{
 		g_GameManager.Pop();
 	}
-}
+};
 
 /*
 * Render
@@ -124,7 +124,7 @@ GameScreen.prototype.Render = function(renderer)
 	{
 		this.component.Render(renderer);
 	}
-}
+};
 
 /*
 * JumpToEvent 
@@ -158,7 +158,7 @@ GameScreen.prototype.JumpToEvent = function(label)
 		g_GameState.eventCnt = label;
 	}
 	this.LoadEvent();
-}
+};
 
 /*
 * GameScreen Constructor

@@ -16,7 +16,7 @@ where key is a key in g_GameState.flags
 MenuComponent.prototype.GetResult = function()
 {
 	return this.options[this.selected];
-}
+};
 
 /*
 * Update
@@ -33,13 +33,13 @@ MenuComponent.prototype.Update = function()
 		++this.selected;
 
 	// Clamp to size of list
-	this.selected = Math.max(0, Math.min(this.selected, this.options.length - 1))
+	this.selected = Math.max(0, Math.min(this.selected, this.options.length - 1));
 
 	if (g_InputManager.IsKeyUniqueDown(g_InputManager.c_SpaceBar))
 	{
 		this.finished = true;
 	}
-}
+};
 
 /*
 * Render
@@ -55,12 +55,27 @@ MenuComponent.prototype.Render = function(renderer)
 	{
 		var option = this.options[obj];
 		
-		renderer.drawText("</br>" + option);
-		
+		if (option.ToString != undefined)
+		{
+			renderer.drawText("</br>" + option.ToString());
+		}
+		else
+		{
+			renderer.drawText("</br>" + option);
+		}
 	}
-	renderer.drawText("</br>Selected: " +
-        this.options[this.selected]);
-}
+	if (option.ToString != undefined)
+	{
+		renderer.drawText("</br>Selected: " +
+			this.options[this.selected].ToString());
+	}
+	else
+	{
+		renderer.drawText("</br>Selected: " +
+			this.options[this.selected]);
+	}
+	
+};
 
 /*
 * MenuComponent Constructor
@@ -75,13 +90,13 @@ function MenuComponent(prompt, optionsList)
 	for (var i = 0; i < this.options.length; ++i)
 	{
 		var option = this.options[i];
-		var show = true;
 		if (option.conditions != undefined)
 		{
 			for (var o = 0; o < option.conditions.length; ++o)
 			{
-				var keyval = option.conditions[o];				
-				if (g_GameState.GetFlag(keyval.key) != keyval.val)
+				var condition = option.conditions[o];
+				// If condition is false, we remove the option
+				if (!new Condition(condition).GetResult())
 				{
 					this.options.splice(i, 1);
 					--i;

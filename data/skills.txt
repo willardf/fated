@@ -8,7 +8,7 @@
 		"Draw Blood" : 
 		{
 			"pip" : 3, 
-			"power" : 0, 
+			"power" : 1, 
 			"magical" : false, 
 			"speed" : 0, 
 			"effects" : 
@@ -38,7 +38,10 @@
 			"speed" : 1, 
 			"effects" : 
 			[
-				{"piptrade" : 1}
+				{
+					"piptrade" : 1, 
+					"conditions" : [ {"random" : 0.30} ]
+				}
 			]
 		},
 		"Midnight's Blade" : 

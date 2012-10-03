@@ -8,8 +8,8 @@
 		"enemies" : {"Raider" : "Frank"}, 
 		"triggers" : 
 		[
-			{"_player.hp" : 0, "label" : "end"}, 
-			{"Frank.hp" : 0, "label" : "Blue"}
+			{"stat" : "_player.hp", "val" : 0, "label" : "end"},
+			{"stat" : "Frank.hp", "val" : 0, "label" : "Blue"}
 		]
 	},
 	{"dialogue" : "Oh, why hello, there!"},
@@ -18,8 +18,8 @@
 		"choice" : "What is your favourite color?",
 		"options" :
 		[
-			{ "text" : "Red", "label" : "Red"},
-			{ 
+			{ "text" : "Red", "label" : "Red" },
+			{
 				"conditions" : [
 					{"key" : "seengreen", "val" : 0}
 					], 
