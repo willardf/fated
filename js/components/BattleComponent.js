@@ -46,8 +46,8 @@ BattleComponent.prototype.SelectSkill = function()
 			};
 		skillItems.push(newItem);
 	}
-	this.menu = new MenuComponent(prompt, skillItems);
-	this.menu.label = "skill";
+	this.component = new MenuComponent(prompt, skillItems);
+	this.component.label = "skill";
 };
 
 BattleComponent.prototype.SelectTarget = function()
@@ -67,8 +67,8 @@ BattleComponent.prototype.SelectTarget = function()
 			};
 		targetItems.push(newItem);
 	}
-	this.menu = new MenuComponent(prompt, targetItems);
-	this.menu.label = "target";
+	this.component = new MenuComponent(prompt, targetItems);
+	this.component.label = "target";
 };
 
 /*
@@ -78,28 +78,28 @@ BattleComponent.prototype.SelectTarget = function()
 */
 BattleComponent.prototype.Update = function()
 {
-	if (this.menu !== undefined)
+	if (this.component !== undefined)
 	{
-		this.menu.Update();
-		if (this.menu.finished)
+		this.component.Update();
+		if (this.component.finished)
 		{
-			if (this.menu.label == "skill")
+			if (this.component.label == "skill")
 			{
-				this.skillSelected = this.menu.GetResult().label;
+				this.skillSelected = this.component.GetResult().label;
 				var current = this.turnOrder[this.turnCounter];
 				var skilldata = g_GameManager.GameData.GetSkillData(this.skillSelected);
 				if (current.pip < -skilldata.pip)
 				{	// Insufficient pips
-					this.menu.finished = false;
+					this.component.finished = false;
 				}
 				else
 				{
 					this.SelectTarget();
 				}
 			}
-			else if (this.menu.label == "target")
+			else if (this.component.label == "target")
 			{
-				var target = this.turnOrder[this.menu.GetResult().label];
+				var target = this.turnOrder[this.component.GetResult().label];
 				if (this.DoSkill(this.skillSelected, target))
 				{
 					this.NextTurn();
@@ -122,9 +122,9 @@ BattleComponent.prototype.Update = function()
 BattleComponent.prototype.Render = function(renderer)
 {
 	$("#outputT").html("Battle");
-	if (this.menu != undefined)
+	if (this.component != undefined)
 	{
-		this.menu.Render(renderer);
+		this.component.Render(renderer);
 	}
 		// FIXME: For testing, represents turn meter thing
 	$("#outputB").html(JSON.stringify(this.turnOrder));
@@ -152,14 +152,8 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	if (skilldata.power != 0)
 	{
 		damage = current.GetPower() + skilldata.power;
-		if (skilldata.magical)
-		{
-			damage -= target.GetMDef();
-		} 
-		else
-		{
-			damage -= target.GetWDef();
-		}
+		damage -= (skilldata.magical ? target.GetMDef() : target.GetWDef());
+		
 		// Range = .75 to 1.75
 		damage *= Math.round(Math.random() + 0.75);
 
@@ -185,9 +179,9 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	return true;
 };
 
-BattleComponent.prototype.EvalEffects = function(recipient, save)
+BattleComponent.prototype.EvalEffects = function(recipient, save, effects)
 {
-	var effectsList = recipient.effects;
+	var effectsList = (effects != undefined ? effects : recipient.effects);
 	var eIdx;
 	var flavor = " effect ";
 	for (eIdx = 0; eIdx < effectsList.length; eIdx++)
@@ -249,43 +243,12 @@ BattleComponent.prototype.ApplyEffects = function(effectsList, current, target)
 		
 		if ("ongoing" in effect)
 		{
-			if ("power" in effect)
-			{
-				var damage = sender.GetPower() + effect.power;
-				damage -= skilldata.magical ? target.GetMDef() : target.GetWDef();
-				
-				if (effect.power > 0 && damage < 0
-					|| effect.power < 0 && damage > 0)
-					{
-						damage = 0;
-					}
-				
-				effect.damage = damage;
-				effect.power = undefined;
-				g_Renderer.LogText(target.name + " will take ongoing " + effect.damage);
-			}
+			g_Renderer.LogText(target.name + " will take ongoing " + effect.damage);
 			recipient.effects.push(effect);
 		}
 		else
 		{
-			if ("damage" in effect)
-			{
-				recipient.currentHealth -= effect.damage;
-				g_Renderer.LogText(recipient.name + " takes " + effect.damage + " damage.");
-			}
-			if ("power" in effect)
-			{
-				var damage = sender.GetPower() + effect.power;
-				damage -= skilldata.magical ? target.GetMDef() : target.GetWDef();
-				recipient.currentHealth -= damage;
-				g_Renderer.LogText(recipient.name + " takes " + damage + " damage.");
-			}
-			if ("piptrade" in effect && recipient.pip > 0)
-			{
-				g_Renderer.LogText(sender.name + " takes "+effect.piptrade+" pip(s)");
-				recipient.pip -= effect.piptrade;
-				sender.pip += effect.piptrade;
-			}
+			this.EvalEffects(recipient, false, [effect]);
 		}
 	}
 };
