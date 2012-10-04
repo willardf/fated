@@ -16,11 +16,11 @@ InputManager.prototype.KeyDown = function(e)
 	// END: TODO
 	
 	this.i_KeysDownCurr[e.which] = true;
-}
+};
 InputManager.prototype.KeyUp = function(e)
 {
 	this.i_KeysDownCurr[e.which] = false;
-}
+};
 
 // Public Functions
 /*
@@ -47,7 +47,7 @@ InputManager.prototype.IsKeyUniqueDown = function(which)
 	{
 		return false;
 	}
-}
+};
 
 /*
  * Update
@@ -57,7 +57,7 @@ InputManager.prototype.Update = function()
 {
 	// slice makes a copy instead of a reference
 	this.i_KeysDownLast = this.i_KeysDownCurr.slice();
-}
+};
 
 // Constructor
 function InputManager()
@@ -67,9 +67,10 @@ function InputManager()
 
 	this.c_SpaceBar = 32;
 	this.c_Enter = 13;
+	this.c_Escape = 27;
 	this.c_UpArrow = 38;
 	this.c_DownArrow = 40;
 
-	$(document).keydown(function (e) { g_InputManager.KeyDown(e) });
-	$(document).keyup(function (e) { g_InputManager.KeyUp(e) });
+	$(document).keydown(function (e) { g_InputManager.KeyDown(e); });
+	$(document).keyup(function (e) { g_InputManager.KeyUp(e); });
 }

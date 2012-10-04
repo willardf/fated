@@ -33,21 +33,20 @@ GameScreen.prototype.Load = function(filename)
 */
 GameScreen.prototype.Update = function()
 {
-	if ("dialogue" in this.currentEvent)
+	if (g_InputManager.IsKeyUniqueDown(g_InputManager.c_Escape))
 	{
-		// Advance
-		if (g_InputManager.IsKeyUniqueDown(g_InputManager.c_SpaceBar))
-		{
-			this.JumpToEvent();
-		}
+		// TODO: Decide if this is correct
+		//g_GameManager.Push(new MainMenuScreen());
 	}
 	else if (this.component != undefined)
 	{
 		this.component.Update();
 		if (this.component.finished)
 		{
-			this.JumpToEvent(this.component.GetResult().label);
+			var label = this.component.GetResult().label;
 			this.component = undefined;
+			this.JumpToEvent(label);
+			
 		}
 	}
 };
@@ -76,7 +75,11 @@ GameScreen.prototype.LoadEvent = function()
 	}
 	
 	// Begin Mutually exclusive checks
-	if ("choice" in currentEvent)
+	if ("dialogue" in currentEvent)
+	{
+		this.component = new DialogueComponent(currentEvent.dialogue);
+	}
+	else if ("choice" in currentEvent)
 	{
 		for (o in currentEvent.options)
 		{
@@ -119,11 +122,7 @@ GameScreen.prototype.LoadEvent = function()
 */
 GameScreen.prototype.Render = function(renderer)
 {
-	if ("dialogue" in this.currentEvent)
-	{
-		renderer.drawText(this.currentEvent.dialogue);
-	}
-	else if (this.component != undefined
+	if (this.component != undefined
 		&& this.component.Render != undefined)
 	{
 		this.component.Render(renderer);
