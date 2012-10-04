@@ -23,12 +23,12 @@ BattleStartComponent.prototype.Update = function()
 			this.finished = true;
 		}
 	}
-}
+};
 
 BattleStartComponent.prototype.GetResult = function()
 {
 	return this.component.GetResultLabel();
-}
+};
 
 /*
 * Render
@@ -43,7 +43,7 @@ BattleStartComponent.prototype.Render = function(renderer)
 	{
 		this.component.Render(renderer);
 	}
-}
+};
 
 /* Default Constructor
  *  

@@ -1,0 +1,27 @@
+{
+	"label" : "Jeb",
+	"data" :
+	{
+		"name" : "Jeb",
+		"health" : 20,
+		"currenthealth" : 20,
+		"pip" : 4,
+		"power" : 2,
+		"wdef" : 2,
+		"mdef" : 2,
+		"special" : 0.5,
+		
+		"level" : 3,
+		
+		"equipment" : {
+			"head" : "Empty",
+			"phand" : "Empty",
+			"ohand" : "Empty",
+			"feet" : "Empty"
+			},
+		
+		"skills" : ["Blunder", "Mash"],
+		
+		"talents" : []
+	}
+}

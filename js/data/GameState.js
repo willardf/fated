@@ -7,14 +7,15 @@
  * Returns the integer value corresponing to key
  * Sets key = 0 if undefined.
  */
-GameState.prototype.GetFlag = function(key)
+GameState.prototype.GetFlag = function(key)
+
 {
 	if (this.flags[key] == undefined)
 	{
 		this.flags[key] = 0;
 	}
 	return this.flags[key];
-}
+};
 
 /* 
  * GetFlag
@@ -24,7 +25,7 @@ GameState.prototype.GetFlag = function(key)
 GameState.prototype.AddFlag = function(flag, val)
 {
 	this.flags[flag]++;// = val;
-}
+};
 
 GameState.prototype.AddSkill = function(skillname)
 {
@@ -32,7 +33,14 @@ GameState.prototype.AddSkill = function(skillname)
 	{
 		this.skillsAvailable.push(skillname);
 	}
-}
+};
+
+GameState.prototype.AddAlly = function(allyName)
+{
+	var allyData = g_GameData.GetAllyData(allyName);
+	this.playerTeam.push(allyData);
+};
+
 
 /*
  * Default constructor

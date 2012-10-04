@@ -3,6 +3,7 @@
 	[
 	{"giveskill" : "Power Name", "dialogue" : "It's too dangerous to go alone. Take this!"},
 	{"giveskill" : "Blunder", "dialogue" : "Also one of these!"},
+	{"giveally" : "Jeb", "dialogue" : "Finally, a friend!"},
 	{
 		"battle" : "true", 
 		"enemies" : {"Raider" : "Frank"}, 
@@ -30,7 +31,10 @@
 	},
 	
 	{"label" : "Green", "dialogue" : "That wasn't actually a question."},
-	{"setflag" : "seengreen", "dialogue" : "It's not green. Try again."},
+	{
+		"setflag" : {"flag" : "seengreen", "val" : 1},
+		 "dialogue" : "It's not green. Try again."
+	},
 	{"jump" : "before"},
 	
 	{"label" : "Red", "scenefile" : "scene2.txt", "sceneevent" : "Red"},

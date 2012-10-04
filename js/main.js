@@ -1,21 +1,16 @@
 var c_FPS = 60;
 
 // Static Globals
-var g_GameManager;
-var g_GameState;
-var g_InputManager;
-var g_TimeManager;
-var g_Renderer;
+g_GameManager = new GameManager();
+g_GameState = new GameState();
+g_InputManager = new InputManager();
+g_TimeManager = new TimeManager();
+g_Renderer = new Renderer();
+g_GameData = new GameData();
 
 // Stuff run before game starts
 function init()
 {
-	g_GameManager = new GameManager();
-	g_GameState = new GameState();
-	g_InputManager = new InputManager();
-	g_TimeManager = new TimeManager();
-	g_Renderer = new Renderer();
-		
 	// Start the game
 	var newMainMenu = new MainMenuScreen();
 	g_GameManager.Push(newMainMenu);

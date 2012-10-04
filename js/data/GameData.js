@@ -32,7 +32,7 @@ GameData.prototype.LoadAppend = function(filename, destContext)
 		};
 		
 	$.ajax(ajaxSettings);
-}
+};
 
 GameData.prototype.GetEnemyData = function(key)
 {
@@ -46,27 +46,45 @@ GameData.prototype.GetEnemyData = function(key)
 	}
 	var copy = $.extend(true, {}, this.enemies[key]);
 	return copy;
-}
+};
+
+GameData.prototype.GetAllyData = function(key)
+{
+	if (!(key in this.allies))
+	{
+		var filename = "allies/" + key + ".txt";
+		this.LoadAppend(filename, this.allies);
+		
+		this.allies[key] = $.extend(new Character(), this.allies[key]);
+		this.allies[key].equipment = $.extend(new CharacterEquipment(), this.allies[key].equipment);
+	}
+	var copy = $.extend(true, {}, this.allies[key]);
+	return copy;
+};
 
 GameData.prototype.GetSkillData = function(key)
 {
 	return this.skills[key];
-}
+};
 
 GameData.prototype.GetTalentData = function(key)
 {
 	return this.talents[key];
-}
+};
 
 GameData.prototype.GetEquipmentData = function(key)
 {
 	return this.equipment[key];
-}
+};
 
 // Default constructor for now.
 function GameData()
 {
 	this.enemies = new Object();
+	this.allies = new Object();
+	this.talents = new Object();
+	this.equipment = new Object();
+	this.skills = new Object();
 	
 	this.LoadAppend("skills.txt");
 	this.LoadAppend("equipment.txt");

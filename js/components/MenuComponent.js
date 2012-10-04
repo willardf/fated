@@ -92,14 +92,13 @@ function MenuComponent(prompt, optionsList)
 		var option = this.options[i];
 		if (option.conditions != undefined)
 		{
-			for (var o = 0; o < option.conditions.length; ++o)
+			for (var o = option.conditions.length - 1; o >= 0; --o)
 			{
 				var condition = option.conditions[o];
 				// If condition is false, we remove the option
 				if (!new Condition(condition).GetResult())
 				{
 					this.options.splice(i, 1);
-					--i;
 					break;
 				}
 			}

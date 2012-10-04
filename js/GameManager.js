@@ -14,7 +14,7 @@ GameManager.prototype.Update = function()
 	var top = this.i_stack[this.i_stack.length - 1];
 	top.Update();
 
-}
+};
 
 /*
 * Push, Pop, Top, Clear
@@ -23,7 +23,7 @@ GameManager.prototype.Update = function()
 GameManager.prototype.Push = function(obj)
 {
 	this.i_stack.push(obj);
-}
+};
 
 GameManager.prototype.Pop = function()
 {
@@ -37,7 +37,7 @@ GameManager.prototype.Pop = function()
 			top.Unload();
 		}
 	}
-}
+};
 
 GameManager.prototype.Top = function()
 {
@@ -49,12 +49,12 @@ GameManager.prototype.Top = function()
 	{
 		return undefined;
 	}
-}
+};
 
 GameManager.prototype.Clear = function()
 {
 	this.i_stack = new Array();
-}
+};
 
 /*
 * Render
@@ -74,7 +74,7 @@ GameManager.prototype.Render = function(renderer)
 	{
 		top.Render(renderer);
 	}
-}
+};
 
 /*
 * GameManager Constructor
@@ -84,5 +84,4 @@ function GameManager()
 {
 	// VariableMemebers
 	this.i_stack = new Array();
-	this.GameData = new GameData();
 }

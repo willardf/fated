@@ -8,7 +8,7 @@ InputManager.prototype.KeyDown = function(e)
 	// TODO: For testing only!
 	if (e.which == 65)
 	{
-		for (e in g_GameManager.GameData.skills)
+		for (e in g_GameData.skills)
 		{
 			g_GameState.AddSkill(e);
 		}

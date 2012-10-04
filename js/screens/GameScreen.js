@@ -64,11 +64,15 @@ GameScreen.prototype.LoadEvent = function()
 	// Non-mutually exclusive checks
 	if ("setflag" in currentEvent)
 	{
-		g_GameState.AddFlag(currentEvent.setflag, true);
+		g_GameState.AddFlag(currentEvent.setflag.flag, currentEvent.setflag.val);
 	}
 	if ("giveskill" in currentEvent)
 	{
 		g_GameState.AddSkill(currentEvent.giveskill);
+	}
+	if ("giveally" in currentEvent)
+	{
+		g_GameState.AddAlly(currentEvent.giveally);
 	}
 	
 	// Begin Mutually exclusive checks
