@@ -35,8 +35,7 @@ GameScreen.prototype.Update = function()
 {
 	if (g_InputManager.IsKeyUniqueDown(g_InputManager.c_Escape))
 	{
-		// TODO: Decide if this is correct
-		//g_GameManager.Push(new MainMenuScreen());
+		g_GameManager.Push(new GameMenuScreen());
 	}
 	else if (this.component != undefined)
 	{
@@ -46,7 +45,6 @@ GameScreen.prototype.Update = function()
 			var label = this.component.GetResult().label;
 			this.component = undefined;
 			this.JumpToEvent(label);
-			
 		}
 	}
 };
