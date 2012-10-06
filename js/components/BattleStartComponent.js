@@ -20,6 +20,7 @@ BattleStartComponent.prototype.Update = function()
 		if (this.component.finished)
 		{
 			// Battles over
+			this.component.Unload();
 			this.finished = true;
 		}
 	}

@@ -13,6 +13,12 @@ BattleComponent.prototype.NextTurn = function()
 	
 	this.EvalEffects(current, true);
 	
+	if (current.IsStunned()) 
+	{
+		// TODO: Handle the stunned animations and whatnot
+		this.NextTurn();
+	}
+	
 	this.SelectSkill();
 };
 
@@ -137,6 +143,15 @@ BattleComponent.prototype.Render = function(renderer)
 	$("#outputB").html(JSON.stringify(this.turnOrder));
 };
 
+BattleComponent.prototype.Unload = function()
+{
+	for (cIdx in this.turnOrder)
+	{
+		var c = this.turnOrder[cIdx];
+		c.currenthealth = c.GetHealth();
+	}
+}
+
 // Validates skill, returns success
 BattleComponent.prototype.DoSkill = function(skillname, target)
 {
@@ -155,16 +170,23 @@ BattleComponent.prototype.DoSkill = function(skillname, target)
 	
 	// TODO: Immediate Interrupts
 	
+	if (current.IsBlinded() && Math.random() < .5) 
+	{
+		// TODO: Handle "you missed" case with animations or something
+		return true;
+	}
+	
 	var damage = 0;
 	if (skilldata.power != 0)
 	{
 		damage = current.GetPower() + skilldata.power;
 		damage -= (skilldata.magical ? target.GetMDef() : target.GetWDef());
 		
-		// Range = .75 to 1.75
-		damage *= Math.round(Math.random() + 0.75);
-
 		// TODO: Handle other damage mods (resist, weakness, absorb
+		var mod = current.IsWeakened() ? 1 : .5;
+		
+		// Random Range = .75 to 1.75
+		damage = Math.round(damage * (Math.random() + 0.75) * mod);		
 		
 		// Force that we aren't doing less than 1 dmg or healing.
 		var pwrSign = skilldata.power >= 0 ? 1 : -1;

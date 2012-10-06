@@ -29,6 +29,7 @@ GameMenuScreen.prototype.Update = function()
 GameMenuScreen.prototype.Render = function(renderer)
 {
 	this.choiceMenu.Render(renderer);
+	$("#outputR").html(JSON.stringify(g_GameState.playerTeam))
 }
 
 /*

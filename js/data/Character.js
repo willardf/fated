@@ -24,6 +24,33 @@ Character.prototype.GetHealth = function()
 	return this.health + this.equipment.GetHealth();
 }
 
+Character.prototype.FindEffectKeyword = function(keyword)
+{
+	for (eff in this.effects)
+	{
+		if (keyword in this.effects[eff])
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+Character.prototyp.IsBlinded = function()
+{
+	return this.FindEffectKeyword("blind");
+}
+
+Character.prototype.IsWeakened = function()
+{
+	return this.FindEffectKeyword("weak");
+}
+s
+Character.prototype.IsStunned = function()
+{
+	return this.FindEffectKeyword("stun");
+}
+
 function Character()
 {
 	this.name = "Character"
