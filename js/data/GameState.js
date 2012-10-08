@@ -24,7 +24,11 @@ GameState.prototype.GetFlag = function(key)
  */
 GameState.prototype.AddFlag = function(flag, val)
 {
-	this.flags[flag]++;// = val;
+    if (val == undefined)
+    {
+        val = 0;
+   } 
+	this.flags[flag] = val;
 };
 
 GameState.prototype.AddSkill = function(skillname)
@@ -41,6 +45,10 @@ GameState.prototype.AddAlly = function(allyName)
 	this.playerTeam.push(allyData);
 };
 
+GameState.prototype.AddItem = function (itemName)
+{
+    this.inventory.push(itemName);
+};
 
 /*
  * Default constructor
