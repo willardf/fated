@@ -36,7 +36,7 @@ Character.prototype.FindEffectKeyword = function(keyword)
 	return false;
 }
 
-Character.prototyp.IsBlinded = function()
+Character.prototype.IsBlinded = function()
 {
 	return this.FindEffectKeyword("blind");
 }
@@ -45,7 +45,7 @@ Character.prototype.IsWeakened = function()
 {
 	return this.FindEffectKeyword("weak");
 }
-s
+
 Character.prototype.IsStunned = function()
 {
 	return this.FindEffectKeyword("stun");
