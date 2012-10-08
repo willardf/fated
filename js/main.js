@@ -7,6 +7,7 @@ g_InputManager = new InputManager();
 g_TimeManager = new TimeManager();
 g_Renderer = new Renderer();
 g_GameData = new GameData();
+g_FileManager = new FileManager();
 
 // Stuff run before game starts
 function init()

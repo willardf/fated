@@ -7,7 +7,7 @@
 * LoadAppend
 * Uses AJAX to load a given file that should contain
 * game data.
-* Note: Appends "data/", so filename should be relative to that path.
+* Note: Prepends "data/", so filename should be relative to that path.
 * TODO: error doesn't actually seem to work.
 */
 GameData.prototype.LoadAppend = function(filename, destContext)
@@ -16,22 +16,8 @@ GameData.prototype.LoadAppend = function(filename, destContext)
 	{
 		destContext = this; 
 	}
-	var ajaxSettings = {
-			async: false,
-			url: ("data/" + filename), 
-			context: destContext,
-			success: function(result)
-				{
-					this[result.label] = result.data;
-				}, 
-			error: function(event, error)
-				{
-					$("p#errors").html(filename + ": AJAXError=" + error + "</br>");
-				},
-			dataType: "json" 
-		};
-		
-	$.ajax(ajaxSettings);
+	var data = g_FileManager.LoadFromFile("data/" + filename);
+	destContext[data.label] = data.data;
 };
 
 GameData.prototype.GetEnemyData = function(key)

@@ -7,22 +7,7 @@
 GameScreen.prototype.Load = function(filename)
 {
 	$("#outputM").html("Loading...");
-	var ajaxSettings = {
-			async: false,
-			url: ("data/scenes/" + filename), 
-			context: this,
-			success: function(result)
-				{
-					this.currentScene = result;
-				}, 
-			error: function(event, error)
-				{
-					$("p#error").html(filename + ": AJAXError=" + error);
-				},
-			dataType: "json" 
-		};
-		
-	$.ajax(ajaxSettings);
+	this.currentScene = g_FileManager.LoadFromFile("data/scenes/" + filename);
 	g_GameState.scenefile = filename;
 };
 
@@ -67,9 +52,20 @@ GameScreen.prototype.LoadEvent = function()
 	{
 		g_GameState.AddSkill(currentEvent.giveskill);
 	}
+	if ("giveskills" in currentEvent)
+	{
+	    for (e in currentEvent.giveskills)
+	    {
+	        g_GameState.AddSkill(currentEvent.giveskills[e]);
+	    }
+	}
 	if ("giveally" in currentEvent)
 	{
 		g_GameState.AddAlly(currentEvent.giveally);
+	}
+	if ("giveitem" in currentEvent)
+	{
+	    g_GameState.AddItem(currentEvent.giveitem);
 	}
 	
 	// Begin Mutually exclusive checks

@@ -45,9 +45,19 @@ GameState.prototype.AddAlly = function(allyName)
 	this.playerTeam.push(allyData);
 };
 
-GameState.prototype.AddItem = function (itemName)
+GameState.prototype.AddItem = function (itemName, count)
 {
-    this.inventory.push(itemName);
+    if (count == undefined) 
+    {
+        count = 1;
+    }
+    if (itemName in this.inventory)
+    {
+        this.inventory[itemName] += count;
+    }
+    else
+    {
+        this.inventory[itemName]
 };
 
 /*
@@ -63,5 +73,5 @@ function GameState()
 	
 	this.skillsAvailable = new Array();
 	this.money = 0;
-	this.inventory = new Array();
+	this.inventory = new Object();
 }

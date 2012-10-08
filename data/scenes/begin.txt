@@ -1,8 +1,8 @@
 {
 	"p_Events" :
 	[
-	{"giveskill" : "Power Name", "dialogue" : "It's too dangerous to go alone. Take this!"},
-	{"giveskill" : "Blunder", "dialogue" : "Also one of these!"},
+	{"giveitem" : "Sowrd", "dialogue" : "It's too dangerous to go alone. Take this!"},
+	{"giveskills" : ["Blunder","Power Name"], "dialogue" : "Also these!"},
 	{"giveally" : "Jeb", "dialogue" : "Finally, a friend!"},
 	{
 		"battle" : "true", 
