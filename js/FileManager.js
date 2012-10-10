@@ -2,8 +2,8 @@
 {
     var ajaxSettings = {
         async: false,
-        url: ("data/" + filename),
-        context: destContext,
+        url: (filename),
+        context: this,
         success: function (result)
         {
             this.result = result;

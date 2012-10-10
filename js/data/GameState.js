@@ -57,7 +57,8 @@ GameState.prototype.AddItem = function (itemName, count)
     }
     else
     {
-        this.inventory[itemName]
+        this.inventory[itemName] = count;
+    }
 };
 
 /*
