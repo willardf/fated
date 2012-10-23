@@ -8,9 +8,13 @@ GameMenuScreen.prototype.Update = function()
 	this.choiceMenu.Update();
 	if (this.choiceMenu.finished)
 	{
-		switch(this.choiceMenu.selected)
-		{
-			case 2:
+		switch(this.choiceMenu.GetResult().label)
+	    {
+		    case 0:
+		        g_GameManager.Push(new EquipmentScreen());
+		        break;
+
+		    case 2:
 				g_GameManager.Pop();
 				break;
 			
@@ -54,5 +58,5 @@ function GameMenuScreen()
 		{"text" : "Return", "label" : 2, "toString" : newToString}
 		];
 	
-	this.choiceMenu = new MenuComponent("Main Menu", menuoptions);
+	this.choiceMenu = new MenuComponent("Menu", menuoptions);
 }
