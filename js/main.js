@@ -25,6 +25,7 @@ function update(frameTime)
 	g_GameManager.Update();
 	g_InputManager.Update();
 
+	g_Renderer.Start();
 	g_GameManager.Render(g_Renderer);
 	g_Renderer.Finish();
 }

@@ -48,41 +48,41 @@ MenuComponent.prototype.Update = function()
 */
 MenuComponent.prototype.Render = function(renderer)
 {
-	if (this.finished) return;
+    if (this.finished) return;
+
+	var fontHeight = renderer.getFontHeight();
 
 	renderer.drawText(this.prompt);
-	for (obj in this.options)
+	for (obj = 0; obj < this.options.length; obj++)
 	{
 		var option = this.options[obj];
-		
+		var y = obj * fontHeight + this.Y;
+
 		if (option.ToString != undefined)
 		{
-			renderer.drawText("</br>" + option.ToString());
+			renderer.drawText(option.ToString(), this.X, y);
 		}
 		else
 		{
-			renderer.drawText("</br>" + option);
+		    renderer.drawText(option, this.X, y);
 		}
 	}
-	if (option.ToString != undefined)
-	{
-		renderer.drawText("</br>Selected: " +
-			this.options[this.selected].ToString());
-	}
-	else
-	{
-		renderer.drawText("</br>Selected: " +
-			this.options[this.selected]);
-	}
-	
+
+	var locY = this.selected * fontHeight + this.Y + 2;
+	renderer.drawBox(this.X, locY, this.width, fontHeight, true, "rgba(0,0,255,0.25)");
 };
 
 /*
 * MenuComponent Constructor
 * Sets stuff up, prunes via conditions.
 */
-function MenuComponent(prompt, optionsList)
+function MenuComponent(prompt, optionsList, locX, locY, width, height)
 {
+    this.X = locX;
+    this.Y = locY;
+    this.width = width;
+    this.height = height;
+
 	this.prompt = prompt;
 	this.selected = 0;
 	this.options = optionsList;

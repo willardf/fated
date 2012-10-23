@@ -57,5 +57,11 @@ function MainMenuScreen()
 		{"text" : "Exit", "label" : 2, "toString" : newToString}
 		];
 	
-	this.choiceMenu = new MenuComponent("Main Menu", menuoptions);
+	var width = g_Renderer.getWidth() / 3;
+	var x = width;
+
+	var height = g_Renderer.getHeight() / 3;
+	var y = height;
+
+	this.choiceMenu = new MenuComponent("Main Menu", menuoptions, x, y, width, height);
 }
