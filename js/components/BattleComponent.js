@@ -44,7 +44,7 @@ BattleComponent.prototype.EvalTriggers = function()
 BattleComponent.prototype.SelectSkill = function()
 {
 	var current = this.turnOrder[this.turnCounter];
-	var prompt = "Choose a skill";
+	var prompt = "Choose a skill, " + current.name + ".";
 	var skillItems = new Array();
 	for (skillidx in current.skills)
 	{
