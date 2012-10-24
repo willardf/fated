@@ -1,0 +1,10 @@
+{
+    "filename": "borders/boreder1.png",
+    "width": 75,
+    "height": 50,
+    "bgcolor": "#FFFFFF",
+    "cornerwidth": 11,
+    "cornerheight": 8,
+    "hortheight": 9,
+    "vertwidth" : 7
+}

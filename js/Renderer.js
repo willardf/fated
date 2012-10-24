@@ -12,6 +12,23 @@ Renderer.prototype.drawText = function(text, locX, locY)
     this.gContext.fillText(text, locX, locY);
 };
 
+Renderer.prototype.drawSource = function (filename, srcX, srcY, srcWth, srcHt, locX, locY, width, height)
+{
+    if (filename in this.images)
+    {
+        if (this.images[filename].complete)
+        {
+            this.gContext.drawImage(this.images[filename], srcX, srcY, srcWth, srcHt, locX, locY, width, height);
+        }
+    }
+    else
+    {
+        var image = new Image();
+        image.src = "images/" + filename;
+        this.images[filename] = image;
+    }
+}
+
 Renderer.prototype.drawBox = function (locX, locY, width, height, fill, color)
 {
     if (fill)
@@ -26,8 +43,6 @@ Renderer.prototype.drawBox = function (locX, locY, width, height, fill, color)
         this.gContext.strokeRect(locX, locY, width, height);
         this.gContext.strokeStyle = "rgba(0,0,0,1)";
     }
-
-    
 }
 
 Renderer.prototype.drawImage = function (filename, locX, locY, height, width)

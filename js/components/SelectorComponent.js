@@ -61,13 +61,14 @@ SelectorComponent.prototype.Render = function(renderer)
 	this.menu.Render(renderer);
 
 	var fontHeight = renderer.getFontHeight();
+	var area = this.menu.border.getTextArea();
+
 	for (x in this.output)
 	{
-	    var y = this.options.indexOf(this.output[x]) * fontHeight + this.Y + 2;
+	    var y = (this.options.indexOf(this.output[x]) + 1) * fontHeight + area.y + 2;
         
-		renderer.drawBox(this.X, y, this.width, fontHeight, true, "rgba(0, 255, 0, .25)");
+		renderer.drawBox(area.x, y, area.w, fontHeight, true, "rgba(0, 255, 0, .25)");
 	}
-	// TODO: Some kind of selection coloring overlay or something.
 }
 
 /*

@@ -1,5 +1,0 @@
-{
-	"filename" : "boreder1.png",
-	"cornerwidth" : 11,
-	"cornerheight" : 8
-}

@@ -50,26 +50,30 @@ MenuComponent.prototype.Render = function(renderer)
 {
     if (this.finished) return;
 
+    this.border.render(renderer);
+    var area = this.border.getTextArea();
+
 	var fontHeight = renderer.getFontHeight();
 
-	renderer.drawText(this.prompt);
+	renderer.drawText(this.prompt, area.x, area.y);
+
 	for (obj = 0; obj < this.options.length; obj++)
 	{
 		var option = this.options[obj];
-		var y = obj * fontHeight + this.Y;
+		var y = (obj + 1) * fontHeight + area.y;
 
 		if (option.ToString != undefined)
 		{
-			renderer.drawText(option.ToString(), this.X, y);
+			renderer.drawText(option.ToString(), area.x, y);
 		}
 		else
 		{
-		    renderer.drawText(option, this.X, y);
+		    renderer.drawText(option, area.x, y);
 		}
 	}
 
-	var locY = this.selected * fontHeight + this.Y + 2;
-	renderer.drawBox(this.X, locY, this.width, fontHeight, true, "rgba(0,0,255,0.25)");
+	var locY = (this.selected + 1) * fontHeight + area.y + 2;
+	renderer.drawBox(area.x, locY, area.w, fontHeight, true, "rgba(0,0,255,0.25)");
 };
 
 /*
@@ -78,6 +82,9 @@ MenuComponent.prototype.Render = function(renderer)
 */
 function MenuComponent(prompt, optionsList, locX, locY, width, height)
 {
+    this.border = new Border("Boreder1.txt");
+    this.border.setRect(locX, locY, width, height);
+
     this.X = locX;
     this.Y = locY;
     this.width = width;
