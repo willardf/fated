@@ -12,7 +12,7 @@ BattleStartComponent.prototype.Update = function()
 		if (this.component.finished)
 		{
 			g_GameState.playerCharacter.skills = this.component.GetResultList();
-			this.component = new BattleComponent(this.enemies, g_GameState.playerTeam, this.triggers);
+			this.component = new BattleComponent(this.enemies, g_GameState.playerTeam, this.triggers, this.width, this.height);
 		}
 	}
 	else

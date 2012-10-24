@@ -33,11 +33,15 @@ DialogueComponent.prototype.Render = function(renderer)
 {
     if (this.finished) return;
 
+    this.border.Render(renderer);
+
     var fontHeight = renderer.getFontHeight();
     var numLines = Math.floor(this.height / fontHeight);
 
-	var locY = fontHeight + this.Y + 2;
-	renderer.drawText(this.prompt, this.X, locY);
+    var area = this.border.getTextArea();
+
+	var locY = area.y + 2;
+	renderer.drawText(this.prompt, area.x, locY);
 };
 
 /*
@@ -46,6 +50,9 @@ DialogueComponent.prototype.Render = function(renderer)
 */
 function DialogueComponent(prompt, locX, locY, width, height)
 {
+    this.border = new Border("Boreder1.txt");
+    this.border.setRect(locX, locY, width, height);
+
     this.X = locX;
     this.Y = locY;
     this.width = width;

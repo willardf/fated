@@ -1,4 +1,4 @@
-﻿Border.prototype.render = function (renderer)
+﻿Border.prototype.Render = function (renderer)
 {
     renderer.drawBox(this.x, this.y, this.w, this.h, true, this.bgColor);
 

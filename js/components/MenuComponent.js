@@ -50,7 +50,7 @@ MenuComponent.prototype.Render = function(renderer)
 {
     if (this.finished) return;
 
-    this.border.render(renderer);
+    this.border.Render(renderer);
     var area = this.border.getTextArea();
 
 	var fontHeight = renderer.getFontHeight();

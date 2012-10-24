@@ -58,7 +58,7 @@ BattleComponent.prototype.SelectSkill = function()
 			};
 		skillItems.push(newItem);
 	}
-	this.component = new MenuComponent(prompt, skillItems);
+	this.component = new MenuComponent(prompt, skillItems, 0, this.height3rd * 2, this.width / 2, this.height3rd);
 	this.component.label = "skill";
 };
 
@@ -80,7 +80,7 @@ BattleComponent.prototype.SelectTarget = function()
 			};
 		targetItems.push(newItem);
 	}
-	this.component = new MenuComponent(prompt, targetItems);
+	this.component = new MenuComponent(prompt, targetItems, 0, this.height3rd * 2, this.width / 2, this.height3rd);
 	this.component.label = "target";
 };
 
@@ -139,8 +139,11 @@ BattleComponent.prototype.Render = function(renderer)
 	{
 		this.component.Render(renderer);
 	}
-		// FIXME: For testing, represents turn meter thing
-	$("#outputB").html(JSON.stringify(this.turnOrder));
+
+	this.statusComponent.Render(renderer);
+
+	// FIXME: For testing, represents turn meter thing
+	//$("#outputB").html(JSON.stringify(this.turnOrder));
 };
 
 BattleComponent.prototype.Unload = function()
@@ -289,8 +292,15 @@ BattleComponent.prototype.GetResultLabel = function()
 /* Constructor
  * Expects player's team references to be on the right. 
  */
-function BattleComponent(teamL, allies, triggers)
+function BattleComponent(teamL, allies, triggers, screenwidth, screenheight)
 {
+    this.width = screenwidth;
+    this.height = screenheight;
+    this.height3rd = screenheight / 3;
+
+    this.statusComponent = new StatusComponent(allies,
+        this.width / 2, this.height3rd * 2, this.width / 2, this.height3rd);
+
 	var enemies = new Array();
 	for (enemy in teamL)
 	{

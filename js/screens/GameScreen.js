@@ -174,7 +174,7 @@ GameScreen.prototype.JumpToEvent = function(label)
 */
 function GameScreen(filename)
 {
-    this.c_Height3rd = g_Renderer.getHeight() / 3.0;
+    this.c_Height3rd = g_Renderer.getHeight() / 3;
 
 	g_GameState.eventCnt = 0;
 	this.Load(filename + "?" + new Date().getTime());
