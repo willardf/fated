@@ -49,11 +49,20 @@ BattleStartComponent.prototype.Render = function(renderer)
 /* Default Constructor
  *  
  */
-function BattleStartComponent(battleinfo)
-{	
+function BattleStartComponent(battleinfo, screenWidth, screenHeight)
+{
+    this.width = screenWidth;
+    this.height = screenHeight;
+
 	this.enemies = battleinfo.enemies;
 	this.triggers = battleinfo.triggers;
 	
 	this.finished = false;
-	this.component = new SelectorComponent("Choose your battle skills", g_GameState.skillsAvailable, g_GameState.playerCharacter.skillsLimit);
+
+	var locX = 0;
+	var locY = screenHeight * (2.0 / 3.0);
+	var width = screenWidth;
+	var height = screenHeight / 3;
+	this.component = new SelectorComponent("Choose your battle skills", g_GameState.skillsAvailable,
+        g_GameState.playerCharacter.skillsLimit, locX, locY, width, height);
 }

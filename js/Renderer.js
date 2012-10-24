@@ -4,9 +4,8 @@
 
 Renderer.prototype.drawText = function(text, locX, locY)
 {
+    // TODO: Testing
     this.midtext += text;
-
-    //locX = 0; locY = 0;
 
     locY += this.fontHeight;
     this.gContext.fillStyle = "rgba(0,0,0,1)";
@@ -43,7 +42,7 @@ Renderer.prototype.drawImage = function (filename, locX, locY, height, width)
     else
     {
         var image = new Image();
-        image.src = filename;
+        image.src = "images/" + filename;
         this.images[filename] = image;
     }
 }
@@ -56,6 +55,22 @@ Renderer.prototype.LogText = function(text)
 Renderer.prototype.getFontHeight = function ()
 {
     return this.fontHeight;
+};
+Renderer.prototype.getFontWidth = function ()
+{
+    return this.fontWidth;
+};
+
+Renderer.prototype.calcFontWidth = function (text)
+{
+    var f = this.gContext.font;
+    o = $('<div>' + text + '</div>')
+            .css({ 'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f })
+            .appendTo($('body'));
+    w = o.width();
+    o.remove();
+
+    return w;
 };
 
 Renderer.prototype.getWidth = function ()
@@ -82,11 +97,15 @@ Renderer.prototype.Finish = function()
 
 function Renderer()
 {
-    this.images = new Object();
-    this.fontHeight = 14;
-
+    this.images = {};
+    
     this.gCanvas = document.getElementById("myCanvas");
     this.gContext = this.gCanvas.getContext("2d");
+
+    // TODO: Testing
     this.midtext = "";
+
+    this.fontHeight = 14;
     this.gContext.font = this.fontHeight + "px Times New Roman";
+    this.fontWidth = this.calcFontWidth("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") / 52;
 }

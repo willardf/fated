@@ -31,17 +31,26 @@ DialogueComponent.prototype.Update = function()
 */
 DialogueComponent.prototype.Render = function(renderer)
 {
-	if (this.finished) return;
+    if (this.finished) return;
 
-	renderer.drawText(this.prompt);
+    var fontHeight = renderer.getFontHeight();
+    var numLines = Math.floor(this.height / fontHeight);
+
+	var locY = fontHeight + this.Y + 2;
+	renderer.drawText(this.prompt, this.X, locY);
 };
 
 /*
 * DialogueComponent Constructor
 * Sets stuff up, prunes via conditions.
 */
-function DialogueComponent(prompt)
+function DialogueComponent(prompt, locX, locY, width, height)
 {
+    this.X = locX;
+    this.Y = locY;
+    this.width = width;
+    this.height = height;
+
 	this.prompt = prompt;
 	this.finished = false;
 }

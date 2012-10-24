@@ -38,12 +38,9 @@ SelectorComponent.prototype.Update = function()
 		{
 			this.output.splice(idx, 1);
 		}
-		else
+		else if (this.numLimit > this.output.length)
 		{
-			if (this.numLimit > this.output.length)
-			{
-				this.output.push(sel);
-			}
+			this.output.push(sel);
 		}
 	}
 
@@ -62,13 +59,14 @@ SelectorComponent.prototype.Render = function(renderer)
 {
 	if (this.finished) return;
 	this.menu.Render(renderer);
-	
-	renderer.drawText("<p>Items Chosen<br/>");
+
+	var fontHeight = renderer.getFontHeight();
 	for (x in this.output)
 	{
-		renderer.drawText((1 + parseInt(x)) + ": " + this.output[x] + "<br/>");		
+	    var y = this.options.indexOf(this.output[x]) * fontHeight + this.Y + 2;
+        
+		renderer.drawBox(this.X, y, this.width, fontHeight, true, "rgba(0, 255, 0, .25)");
 	}
-	renderer.drawText("</p>");
 	// TODO: Some kind of selection coloring overlay or something.
 }
 
@@ -76,9 +74,15 @@ SelectorComponent.prototype.Render = function(renderer)
 * SelectorComponent Constructor
 * Sets stuff up, prunes via conditions.
 */
-function SelectorComponent(prompt, optionsList, numLimit)
+function SelectorComponent(prompt, optionsList, numLimit, locX, locY, width, height)
 {
-	this.numLimit = numLimit;
-	this.menu = new MenuComponent(prompt, optionsList);
+    this.X = locX;
+    this.Y = locY;
+    this.width = width;
+    this.height = height;
+
+    this.numLimit = numLimit;
+    this.options = optionsList;
+	this.menu = new MenuComponent(prompt, optionsList, locX, locY, width, height);
 	this.output = new Array();
 }

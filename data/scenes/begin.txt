@@ -1,4 +1,5 @@
 {
+	"background" : "backgrounds/background1.png",
 	"p_Events" :
 	[
 	{"giveitem" : "Sowrd", "dialogue" : "It's too dangerous to go alone. Take this!"},

@@ -71,7 +71,10 @@ GameScreen.prototype.LoadEvent = function()
 	// Begin Mutually exclusive checks
 	if ("dialogue" in currentEvent)
 	{
-		this.component = new DialogueComponent(currentEvent.dialogue);
+	    var width = g_Renderer.getWidth();
+	    var height = this.c_Height3rd;
+	    var y = this.c_Height3rd * 2;
+		this.component = new DialogueComponent(currentEvent.dialogue, 0, y, width, height);
 	}
 	else if ("choice" in currentEvent)
 	{
@@ -82,11 +85,14 @@ GameScreen.prototype.LoadEvent = function()
 				return this.text;
 			};
 		}
-		this.component = new MenuComponent(currentEvent.choice, currentEvent.options);
+		var width = g_Renderer.getWidth();
+		var height = this.c_Height3rd;
+		var y = this.c_Height3rd * 2;
+		this.component = new MenuComponent(currentEvent.choice, currentEvent.options, 0, y, width, height);
 	}
 	else if ("battle" in currentEvent)
 	{
-		this.component = new BattleStartComponent(currentEvent); 
+	    this.component = new BattleStartComponent(currentEvent, g_Renderer.getWidth(), g_Renderer.getHeight());
 	}
 	else if ("scenefile" in currentEvent)
 	{
@@ -116,6 +122,11 @@ GameScreen.prototype.LoadEvent = function()
 */
 GameScreen.prototype.Render = function(renderer)
 {
+    if ("background" in this.currentScene)
+    {
+        renderer.drawImage(this.currentScene.background, 0, 0, renderer.getWidth(), renderer.getHeight());
+    }
+
 	if (this.component != undefined
 		&& this.component.Render != undefined)
 	{
@@ -163,6 +174,8 @@ GameScreen.prototype.JumpToEvent = function(label)
 */
 function GameScreen(filename)
 {
+    this.c_Height3rd = g_Renderer.getHeight() / 3.0;
+
 	g_GameState.eventCnt = 0;
 	this.Load(filename + "?" + new Date().getTime());
 	this.LoadEvent();
