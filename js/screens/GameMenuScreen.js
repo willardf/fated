@@ -50,6 +50,9 @@ GameMenuScreen.prototype.Unload = function()
 // Default constructor
 function GameMenuScreen()
 {
+    this.width = g_Renderer.getWidth();
+    this.height = g_Renderer.getHeight();
+
 	var newToString = function(){ return this.text; };
 	var menuoptions = 
 		[
@@ -58,5 +61,5 @@ function GameMenuScreen()
 		{"text" : "Return", "label" : 2, "toString" : newToString}
 		];
 	
-	this.choiceMenu = new MenuComponent("Menu", menuoptions);
+	this.choiceMenu = new MenuComponent("Menu", menuoptions, 0, 0, this.width / 4, this.height / 2);
 }

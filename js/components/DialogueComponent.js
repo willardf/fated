@@ -50,7 +50,7 @@ DialogueComponent.prototype.Render = function(renderer)
 */
 function DialogueComponent(prompt, locX, locY, width, height)
 {
-    this.border = new Border("Boreder1.txt");
+    this.border = new Border("boreder1.txt");
     this.border.setRect(locX, locY, width, height);
 
     this.X = locX;
