@@ -140,6 +140,8 @@ BattleComponent.prototype.Render = function(renderer)
 		this.component.Render(renderer);
 	}
 
+	renderer.drawImage(this.fieldImage, 0, 0, this.width, this.height3rd * 2);
+
 	var maxCnt = this.allies.length > this.enemies.length ? this.allies.length : this.enemies.length;
 
 	var fieldHeight = this.c_FieldScale * this.height3rd * 2;
@@ -192,6 +194,8 @@ BattleComponent.prototype.Unload = function()
 // Validates skill, returns success
 BattleComponent.prototype.DoSkill = function(skillname, target)
 {
+    if (target == undefined) return false;
+
 	var skilldata = g_GameData.GetSkillData(skillname);
 	var current = this.turnOrder[this.turnCounter];
 	
@@ -327,35 +331,36 @@ BattleComponent.prototype.GetResultLabel = function()
 /* Constructor
  * Expects player's team references to be on the right. 
  */
-function BattleComponent(teamL, allies, triggers, screenwidth, screenheight)
+function BattleComponent(data, screenwidth, screenheight)
 {
     this.c_FieldScale = .9;
-    this.c_CharacterScale = .7;
+    this.c_CharacterScale = .9;
 
     this.width = screenwidth;
     this.height = screenheight;
     this.height3rd = screenheight / 3;
 
-    this.statusComponent = new StatusComponent(allies,
-        this.width / 2, this.height3rd * 2, this.width / 2, this.height3rd);
-
-	var enemies = new Array();
-	for (enemy in teamL)
+    this.enemies = new Array();
+	for (eIdx in data.enemies)
 	{
-		var data = g_GameData.GetEnemyData(enemy);
-		data.name = teamL[enemy];
-		enemies.push(data);
+		var enemyData = g_GameData.GetEnemyData(eIdx);
+		enemyData.name = data.enemies[eIdx];
+		this.enemies.push(enemyData);
 	}
 
-	this.triggers = triggers;	
-	this.enemies = enemies;
-	this.allies = allies;
+	this.data = data;
+	this.fieldImage = data.field;
+	this.triggers = data.triggers;
+	this.allies = g_GameState.playerTeam;
 	
+	this.statusComponent = new StatusComponent(this.allies,
+        this.width / 2, this.height3rd * 2, this.width / 2, this.height3rd);
+
 	this.finished = false;
 	// make a copy of teamL, concat teamR to it.
-	this.turnOrder = $.merge($.merge([], enemies), allies);
+	this.turnOrder = $.merge($.merge([], this.enemies), this.allies);
 	this.turnCounter = -1;
-	this.RandomizeTurnOrder();
+	//this.RandomizeTurnOrder();
 	this.NextTurn();
 }
 

@@ -26,9 +26,7 @@ GameData.prototype.GetEnemyData = function(key)
 	{
 		var filename = "enemies/" + key + ".txt";
 		this.LoadAppend(filename, this.enemies);
-		
-		this.enemies[key] = $.extend(new Character(), this.enemies[key]);
-		this.enemies[key].equipment = $.extend(new CharacterEquipment(), this.enemies[key].equipment);
+		this.enemies[key] = new Character(this.enemies[key]);
 	}
 	var copy = $.extend(true, {}, this.enemies[key]);
 	return copy;
@@ -41,8 +39,7 @@ GameData.prototype.GetAllyData = function(key)
 		var filename = "allies/" + key + ".txt";
 		this.LoadAppend(filename, this.allies);
 		
-		this.allies[key] = $.extend(new Character(), this.allies[key]);
-		this.allies[key].equipment = $.extend(new CharacterEquipment(), this.allies[key].equipment);
+		this.allies[key] = new Character(this.allies[key]);
 	}
 	var copy = $.extend(true, {}, this.allies[key]);
 	return copy;

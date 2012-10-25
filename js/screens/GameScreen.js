@@ -74,7 +74,7 @@ GameScreen.prototype.LoadEvent = function()
 	    var width = g_Renderer.getWidth();
 	    var height = this.c_Height3rd;
 	    var y = this.c_Height3rd * 2;
-		this.component = new DialogueComponent(currentEvent.dialogue, 0, y, width, height);
+		this.component = new DialogueComponent(currentEvent.dialogue, currentEvent.speaker, 0, y, width, height);
 	}
 	else if ("choice" in currentEvent)
 	{

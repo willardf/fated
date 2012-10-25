@@ -22,13 +22,13 @@ GameState.prototype.GetFlag = function(key)
  * Returns the integer value corresponing to key
  * Sets key = 0 if undefined.
  */
-GameState.prototype.AddFlag = function(flag, val)
+GameState.prototype.AddFlag = function (flag, val)
 {
     if (val == undefined)
     {
         val = 0;
-   } 
-	this.flags[flag] = val;
+    }
+    this.flags[flag] = val;
 };
 
 GameState.prototype.AddSkill = function(skillname)

@@ -8,8 +8,8 @@
 		"health" : 35,
 		"currenthealth" : 35,
 		"pip" : 4,
-		"power" : 12,
-		"wdef" : 7,
+		"power" : 5,
+		"wdef" : 3,
 		"mdef" : 3,
 		"special" : 0.0,
 		

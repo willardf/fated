@@ -43,10 +43,11 @@ CharacterEquipment.prototype.GetHealth = function()
 	return head.health + phand.health + ohand.health + feet.health;
 };
 
-function CharacterEquipment()
+function CharacterEquipment(data)
 {
-	this.head = "Empty";
-	this.phand = "Empty";
-	this.ohand = "Empty";
-	this.feet = "Empty";
+
+	this.head = data ? data.head : "Empty";
+	this.phand = data ? data.phand : "Empty";
+	this.ohand = data ? data.ohand : "Empty";
+	this.feet = data ? data.feet : "Empty";
 }

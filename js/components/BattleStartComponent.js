@@ -17,7 +17,7 @@ BattleStartComponent.prototype.Update = function()
 		        this.component.finished = false;
 		        return;
 		    }
-			this.component = new BattleComponent(this.enemies, g_GameState.playerTeam, this.triggers, this.width, this.height);
+			this.component = new BattleComponent(this.battleinfo, this.width, this.height);
 		}
 	}
 	else
@@ -56,11 +56,10 @@ BattleStartComponent.prototype.Render = function(renderer)
  */
 function BattleStartComponent(battleinfo, screenWidth, screenHeight)
 {
+    this.battleinfo = battleinfo;
+
     this.width = screenWidth;
     this.height = screenHeight;
-
-	this.enemies = battleinfo.enemies;
-	this.triggers = battleinfo.triggers;
 	
 	this.finished = false;
 

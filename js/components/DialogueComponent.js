@@ -39,24 +39,48 @@ DialogueComponent.prototype.Render = function(renderer)
     var numLines = Math.floor(this.height / fontHeight);
 
     var area = this.border.getTextArea();
+    var locY = area.y + 2;
+    var locX = area.x;
 
-	var locY = area.y + 2;
-	renderer.drawText(this.prompt, area.x, locY);
+	if (this.speaker != undefined)
+	{
+	    this.portraitBorder.Render(renderer);
+	    var area = this.portraitBorder.getTextArea();
+	    locX += area.w
+	    renderer.drawImage("characters/" + this.speaker + "portrait.png", area.x, area.y, area.w, area.h);
+	}
+
+	renderer.drawText(this.prompt, locX, locY);
 };
 
 /*
 * DialogueComponent Constructor
 * Sets stuff up, prunes via conditions.
 */
-function DialogueComponent(prompt, locX, locY, width, height)
+function DialogueComponent(prompt, speaker, locX, locY, width, height)
 {
-    this.border = new Border("boreder1.txt");
-    this.border.setRect(locX, locY, width, height);
 
     this.X = locX;
     this.Y = locY;
     this.width = width;
     this.height = height;
+    this.speaker = speaker;
+
+    if (speaker != undefined)
+    {
+        var hScale = this.height / 7;
+
+        this.portraitBorder = new Border("boreder1.txt");
+        this.portraitBorder.setRect(locX, locY, hScale * 6, hScale * 6);
+
+        this.border = new Border("boreder1.txt");
+        this.border.setRect(locX + hScale, locY + hScale, width - hScale, hScale * 6);
+    }
+    else
+    {
+        this.border = new Border("boreder1.txt");
+        this.border.setRect(locX, locY, width, height);
+    }
 
 	this.prompt = prompt;
 	this.finished = false;
