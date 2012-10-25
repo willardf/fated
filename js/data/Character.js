@@ -66,6 +66,7 @@ Character.prototype.Render = function (renderer, locX, locY, width, height)
 
     var sideShift = (width * 14 / 15);
     renderer.drawBox(locX + sideShift, locY, width / 15, height * ratio, true, color);
+    renderer.drawBox(locX + sideShift, locY, width / 15, height, false, "#000000");
 };
 
 function Character(data)

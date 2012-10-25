@@ -20,7 +20,14 @@ DialogueComponent.prototype.Update = function()
 
 	if (g_InputManager.IsKeyUniqueDown(g_InputManager.c_SpaceBar))
 	{
-		this.finished = true;
+	    if (this.start + this.linesMax >= this.promptLines.length)
+	    {
+	        this.finished = true;
+	    }
+	    else
+	    {
+	        this.start++;
+	    }
 	}
 };
 
@@ -45,12 +52,46 @@ DialogueComponent.prototype.Render = function(renderer)
 	if (this.speaker != undefined)
 	{
 	    this.portraitBorder.Render(renderer);
-	    var area = this.portraitBorder.getTextArea();
-	    locX += area.w
-	    renderer.drawImage("characters/" + this.speaker + "portrait.png", area.x, area.y, area.w, area.h);
+	    var portArea = this.portraitBorder.getTextArea();
+	    locX += portArea.w
+	    renderer.drawImage("characters/" + this.speaker + "portrait.png", portArea.x, portArea.y, portArea.w, portArea.h);
 	}
 
-	renderer.drawText(this.prompt, locX, locY);
+	for (var line = this.start; line < this.promptLines.length && line - this.start < this.linesMax; line++)
+	{
+	    renderer.drawText(this.promptLines[line], locX, locY + (line - this.start) * fontHeight);
+	}
+
+	if (this.start + this.linesMax < this.promptLines.length)
+	{
+	    renderer.drawImage("downarrow.png", area.x + area.w / 2, locY + this.linesMax * fontHeight, fontHeight * 2, fontHeight);
+	}
+};
+
+DialogueComponent.prototype.WordWrap = function (text, width)
+{
+    var width = width || 75;
+
+    var split = text.split(" ");
+    var output = new Array();
+
+    var len = 0;
+    var last = 0;
+    for (var i = 0; i < split.length; i++)
+    {
+        if (len + split[i].length > width)
+        {
+            output.push(split.slice(last, i).join(" "));
+            last = i;
+            len = split[i].length;
+        }
+        else
+        {
+            len += split[i].length;
+        }
+    }
+    output.push(split.slice(last).join(" "));
+    return output;
 };
 
 /*
@@ -59,7 +100,7 @@ DialogueComponent.prototype.Render = function(renderer)
 */
 function DialogueComponent(prompt, speaker, locX, locY, width, height)
 {
-
+    this.start = 0;
     this.X = locX;
     this.Y = locY;
     this.width = width;
@@ -75,13 +116,20 @@ function DialogueComponent(prompt, speaker, locX, locY, width, height)
 
         this.border = new Border("boreder1.txt");
         this.border.setRect(locX + hScale, locY + hScale, width - hScale, hScale * 6);
+
+        var textWidth = this.border.getTextArea().w;// - this.portraitBorder.getTextArea().w;
     }
     else
     {
         this.border = new Border("boreder1.txt");
         this.border.setRect(locX, locY, width, height);
+
+        var textWidth = this.border.getTextArea().w;
     }
 
-	this.prompt = prompt;
+    this.prompt = prompt;
+    this.promptLines = this.WordWrap(prompt, textWidth / g_Renderer.getFontWidth());
+    this.linesMax = Math.floor(this.border.getTextArea().h / g_Renderer.getFontHeight()) - 1;
+
 	this.finished = false;
 }

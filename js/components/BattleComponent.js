@@ -124,7 +124,8 @@ BattleComponent.prototype.Update = function()
 				}				
 			}
 		}
-	}	
+	}
+	this.turnOrderComponent.Update(this.turnCounter);
 };
 
 /*
@@ -180,6 +181,7 @@ BattleComponent.prototype.Render = function(renderer)
 	}
 
 	this.statusComponent.Render(renderer);
+	this.turnOrderComponent.Render(renderer);
 };
 
 BattleComponent.prototype.Unload = function()
@@ -323,6 +325,18 @@ BattleComponent.prototype.MoveTurn = function(amount)
 	this.turnOrder.splice(dest, 0, temp);
 };
 
+BattleComponent.prototype.RandomizeTurnOrder = function ()
+{
+    // Randomize order
+    for (var i = 0; i < this.turnOrder.length; ++i)
+    {
+        var random = Math.floor(Math.random() * this.turnOrder.length);
+        var temp = this.turnOrder[i];
+        this.turnOrder[i] = this.turnOrder[random];
+        this.turnOrder[random] = temp;
+    }
+};
+
 BattleComponent.prototype.GetResultLabel = function()
 {
 	return this.result;
@@ -352,26 +366,17 @@ function BattleComponent(data, screenwidth, screenheight)
 	this.fieldImage = data.field;
 	this.triggers = data.triggers;
 	this.allies = g_GameState.playerTeam;
-	
-	this.statusComponent = new StatusComponent(this.allies,
-        this.width / 2, this.height3rd * 2, this.width / 2, this.height3rd);
 
 	this.finished = false;
 	// make a copy of teamL, concat teamR to it.
 	this.turnOrder = $.merge($.merge([], this.enemies), this.allies);
 	this.turnCounter = -1;
-	//this.RandomizeTurnOrder();
+    //this.RandomizeTurnOrder();
+
+	this.statusComponent = new StatusComponent(this.allies,
+        this.width / 2, this.height3rd * 2, this.width / 2, this.height3rd);
+	this.turnOrderComponent = new TurnOrderComponent(this.turnOrder,
+        this.width * 5 / 6, 0, this.width / 6, this.height3rd);
+
 	this.NextTurn();
 }
-
-BattleComponent.prototype.RandomizeTurnOrder = function()
-{
-	// Randomize order
-	for (var i = 0; i < this.turnOrder.length; ++i)
-	{
-		var random = Math.floor(Math.random() * this.turnOrder.length);
-		var temp = this.turnOrder[i];
-		this.turnOrder[i] = this.turnOrder[random];
-		this.turnOrder[random] = temp;
-	}
-};
