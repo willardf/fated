@@ -5,6 +5,12 @@
 */
 EquipmentScreen.prototype.Update = function ()
 {
+    if (g_InputManager.IsKeyUniqueDown(g_InputManager.c_Escape))
+    {
+        g_GameManager.Pop();
+        return;
+    }
+
     this.choiceMenu.Update();
     if (this.choiceMenu.finished)
     {
@@ -59,6 +65,8 @@ function EquipmentScreen()
         item.text = character.name;
         item.ToString = function () { return this.text; }
         item.label = character;
+
+        menuoptions.push(item);
     }
 
 

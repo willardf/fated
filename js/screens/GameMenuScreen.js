@@ -5,6 +5,12 @@
 */
 GameMenuScreen.prototype.Update = function()
 {
+    if (g_InputManager.IsKeyUniqueDown(g_InputManager.c_Escape))
+    {
+        g_GameManager.Pop();
+        return;
+    }
+
 	this.choiceMenu.Update();
 	if (this.choiceMenu.finished)
 	{
@@ -12,10 +18,11 @@ GameMenuScreen.prototype.Update = function()
 	    {
 		    case 0:
 		        g_GameManager.Push(new EquipmentScreen());
+		        this.choiceMenu.finished = false;
 		        break;
 
 		    case 2:
-				g_GameManager.Pop();
+		        g_GameManager.Pop();
 				break;
 			
 			default:
