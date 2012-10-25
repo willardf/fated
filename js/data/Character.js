@@ -1,59 +1,78 @@
 
-Character.prototype.GetPower = function()
+Character.prototype.GetPower = function ()
 {
-	return this.power + this.equipment.GetPower();
-}
+    return this.power + this.equipment.GetPower();
+};
 
-Character.prototype.GetWDef = function()
+Character.prototype.GetWDef = function ()
 {
-	return this.wdef + this.equipment.GetWDef();
-}
+    return this.wdef + this.equipment.GetWDef();
+};
 
-Character.prototype.GetMDef = function()
+Character.prototype.GetMDef = function ()
 {
-	return this.mdef + this.equipment.GetMDef();
-}
+    return this.mdef + this.equipment.GetMDef();
+};
 
-Character.prototype.GetSpecial = function()
+Character.prototype.GetSpecial = function ()
 {
-	return this.special + this.equipment.GetSpecial();
-}
+    return this.special + this.equipment.GetSpecial();
+};
 
-Character.prototype.GetHealth = function()
+Character.prototype.GetHealth = function ()
 {
-	return this.health + this.equipment.GetHealth();
-}
+    return this.health + this.equipment.GetHealth();
+};
 
-Character.prototype.FindEffectKeyword = function(keyword)
+Character.prototype.FindEffectKeyword = function (keyword)
 {
-	for (eff in this.effects)
-	{
-		if (keyword in this.effects[eff])
-		{
-			return true;
-		}
-	}
-	return false;
-}
+    for (eff in this.effects)
+    {
+        if (keyword in this.effects[eff])
+        {
+            return true;
+        }
+    }
+    return false;
+};
 
-Character.prototype.IsBlinded = function()
+Character.prototype.IsBlinded = function ()
 {
-	return this.FindEffectKeyword("blind");
-}
+    return this.FindEffectKeyword("blind");
+};
 
-Character.prototype.IsWeakened = function()
+Character.prototype.IsWeakened = function ()
 {
-	return this.FindEffectKeyword("weak");
-}
+    return this.FindEffectKeyword("weak");
+};
 
-Character.prototype.IsStunned = function()
+Character.prototype.IsStunned = function ()
 {
-	return this.FindEffectKeyword("stun");
-}
+    return this.FindEffectKeyword("stun");
+};
+
+Character.prototype.Render = function (renderer, locX, locY, width, height)
+{
+    renderer.drawImage(this.image, locX, locY, width, height);
+
+    var ratio = this.currenthealth / this.GetHealth();
+
+    var r = Math.floor(ratio > .5 ? 512 * (1 - ratio) : 255);
+    var g = Math.floor(ratio < .5 ? 512 * ratio : 255);
+
+    var color = "rgba(" + r + "," + g + ",0,1)"
+
+    // First green, add red until .5, then remove green until 0
+
+    var sideShift = (width * 14 / 15);
+    renderer.drawBox(locX + sideShift, locY, width / 15, height * ratio, true, color);
+};
 
 function Character()
 {
-	this.name = "Character"
+    this.name = "Player"
+    this.image = "characters/player.png"
+
 	this.health = 30;
 	this.currenthealth = 30;
 	this.pip = 4;

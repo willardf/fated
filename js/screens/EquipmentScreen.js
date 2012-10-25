@@ -46,6 +46,9 @@ EquipmentScreen.prototype.Unload = function ()
 // Default constructor
 function EquipmentScreen()
 {
+    this.width = g_Renderer.getWidth();
+    this.height = g_Renderer.getHeight();
+
     var newToString = function () { return this.text; };
     var menuoptions = [];
 
@@ -59,5 +62,5 @@ function EquipmentScreen()
     }
 
 
-    this.choiceMenu = new MenuComponent("Equipment", menuoptions);
+    this.choiceMenu = new MenuComponent("Equipment", menuoptions, 0, 0, this.width / 4, this.height / 2);
 }

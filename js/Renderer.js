@@ -60,7 +60,34 @@ Renderer.prototype.drawImage = function (filename, locX, locY, height, width)
         image.src = "images/" + filename;
         this.images[filename] = image;
     }
+};
+
+Renderer.prototype.Save = function ()
+{
+    this.gContext.save();
+};
+Renderer.prototype.Restore = function ()
+{
+    this.gContext.restore();
+};
+
+Renderer.prototype.createGradient = function (x1, y1, x2, y2, stops)
+{
+    var grd = this.gContext.createLinearGradient(x1, y1, x2, y2);
+    for (sPt in stops)
+    {
+        grd.addColorStop(sPt, stops[sPt]);
+    }
+    return grd;
 }
+
+Renderer.prototype.setMirror = function (flipX, flipY, aboutX, aboutY)
+{
+    this.flipX = flipX;
+
+    this.gContext.translate(aboutX, aboutY);
+    this.gContext.scale(flipX ? -1 : 1, flipY ? -1 : 1);
+};
 
 Renderer.prototype.LogText = function(text)
 {

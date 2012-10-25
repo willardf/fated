@@ -140,10 +140,44 @@ BattleComponent.prototype.Render = function(renderer)
 		this.component.Render(renderer);
 	}
 
-	this.statusComponent.Render(renderer);
+	var maxCnt = this.allies.length > this.enemies.length ? this.allies.length : this.enemies.length;
 
-	// FIXME: For testing, represents turn meter thing
-	//$("#outputB").html(JSON.stringify(this.turnOrder));
+	var fieldHeight = this.c_FieldScale * this.height3rd * 2;
+	
+	
+	var charH = fieldHeight / maxCnt * this.c_CharacterScale;
+	var charW = charH / 1.5;
+	var alliesX = this.width / 2 + charW;
+
+	var topPadding = (1 - this.c_FieldScale) * this.height / 2 + (fieldHeight - charH) / 2;
+
+	for (eIdx = 0; eIdx < this.allies.length; eIdx++)
+	{
+	    var alliesY = topPadding + charH / maxCnt * eIdx;
+        
+	    var ally = this.allies[eIdx];
+	    ally.Render(renderer, alliesX + (eIdx % 2) * charW / 2, alliesY, charW, charH, false);
+	}
+
+	var enemiesX = this.width / 2 - 2 * charW;
+
+	var topPadding = (1 - this.c_FieldScale) * this.height / 2 + (fieldHeight - charH) / 2;
+
+	
+
+	for (eIdx = 0; eIdx < this.enemies.length; eIdx++)
+	{
+	    renderer.Save();
+	    var enemiesY = topPadding + charH / this.enemies.length * eIdx;
+	    renderer.setMirror(true, false, enemiesX + (eIdx % 2) * charW / 2, enemiesY);
+
+	    var ally = this.enemies[eIdx];
+	    ally.Render(renderer, 0, 0, charW, charH, true);
+
+	    renderer.Restore();
+	}
+
+	this.statusComponent.Render(renderer);
 };
 
 BattleComponent.prototype.Unload = function()
@@ -267,6 +301,7 @@ BattleComponent.prototype.ApplyEffects = function(effectsList, current, target)
 // THIS FUNCTION SHOULD BE USED ONLY AT THE END OF A TURN.
 BattleComponent.prototype.MoveTurn = function(amount)
 {
+    return;
 	if (amount == 0) return;	// Not necessary, but wastes less time
 	
 	var dest = (this.turnCounter - amount) % this.turnOrder.length;
@@ -294,6 +329,9 @@ BattleComponent.prototype.GetResultLabel = function()
  */
 function BattleComponent(teamL, allies, triggers, screenwidth, screenheight)
 {
+    this.c_FieldScale = .9;
+    this.c_CharacterScale = .7;
+
     this.width = screenwidth;
     this.height = screenheight;
     this.height3rd = screenheight / 3;

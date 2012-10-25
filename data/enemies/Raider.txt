@@ -3,6 +3,8 @@
 	"data" :
 	{
 		"name" : "Raider",
+		"image" : "characters/raider.png",
+
 		"health" : 35,
 		"currenthealth" : 35,
 		"pip" : 4,

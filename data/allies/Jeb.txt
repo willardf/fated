@@ -3,6 +3,8 @@
 	"data" :
 	{
 		"name" : "Jeb",
+		"image" : "characters/raider.png",
+
 		"health" : 20,
 		"currenthealth" : 20,
 		"pip" : 4,
