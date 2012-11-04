@@ -12,13 +12,15 @@ Renderer.prototype.drawText = function(text, locX, locY)
     this.gContext.fillText(text, locX, locY);
 };
 
-Renderer.prototype.drawSource = function (filename, srcX, srcY, srcWth, srcHt, locX, locY, width, height)
+// Returns if image was fully loaded and successfully drawn.
+Renderer.prototype.drawSource = function(filename, srcX, srcY, srcWth, srcHt, locX, locY, width, height)
 {
     if (filename in this.images)
     {
         if (this.images[filename].complete)
         {
             this.gContext.drawImage(this.images[filename], srcX, srcY, srcWth, srcHt, locX, locY, width, height);
+            return true;
         }
     }
     else
@@ -27,7 +29,23 @@ Renderer.prototype.drawSource = function (filename, srcX, srcY, srcWth, srcHt, l
         image.src = "images/" + filename;
         this.images[filename] = image;
     }
-}
+    return false;
+};
+
+Renderer.prototype.isImageLoaded = function(filename)
+{
+    if (filename in this.images)
+    {
+        return this.images[filename].complete;
+    }
+    else
+    {
+        var image = new Image();
+        image.src = "images/" + filename;
+        this.images[filename] = image;
+    }
+    return false;
+};
 
 Renderer.prototype.drawBox = function (locX, locY, width, height, fill, color)
 {

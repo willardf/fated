@@ -32,8 +32,11 @@ MainMenuScreen.prototype.Unload = function()
 	{
 		case 0:
 		    g_GameManager.Clear();
-			var newGameMain = new GameScreen("begin.txt")
-			g_GameManager.Push(newGameMain);
+		    var newGameMain = new GameScreen("begin.txt")
+		    if (!newGameMain.finished)
+		    {
+		        g_GameManager.Push(newGameMain);
+		    }
 			break;
 		case 1:
             g_GameManager.Clear();

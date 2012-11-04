@@ -2,6 +2,7 @@
 	"background" : "backgrounds/background1.png",
 	"p_Events" :
 	[
+	{ "worldmap" : 0 },
 	{
 		"giveitem" : "Sowrd", 
 		"dialogue" : "Hello! As I understand it, you need a test for your word wrapping system. Is that right? Well, I could just say \"It's too dangerous to go alone. Take this!\" but that wouldn't be very interesting, now would it? Hello! As I understand it, you need a test for your word wrapping system. Is that right? Well, I could just say \"It's too dangerous to go alone. Take this!\" but that wouldn't be very interesting, now would it? Hello! As I understand it, you need a test for your word wrapping system. Is that right? Well, I could just say \"It's too dangerous to go alone. Take this!\" but that wouldn't be very interesting, now would it?", 

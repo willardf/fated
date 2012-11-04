@@ -69,7 +69,14 @@ GameScreen.prototype.LoadEvent = function()
 	}
 	
 	// Begin Mutually exclusive checks
-	if ("dialogue" in currentEvent)
+	if ("worldmap" in currentEvent)
+	{
+	    g_GameManager.Pop();
+	    g_GameManager.Push(new WorldMapScreen());
+	    this.finished = true;
+	    return;
+	}
+	else if ("dialogue" in currentEvent)
 	{
 	    var width = g_Renderer.getWidth();
 	    var height = this.c_Height3rd;
@@ -169,7 +176,7 @@ GameScreen.prototype.JumpToEvent = function(label)
 };
 
 /*
-* GameScreen Constructor
+* GameeScreen Constructor
 * Loads a file, starts the scene.
 */
 function GameScreen(filename)

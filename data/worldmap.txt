@@ -1,0 +1,10 @@
+﻿{
+	"image" : "worldmap.png",
+	"choices":
+	[
+		{ 
+			"label" : "Altaria", "image" : "altaria-ico.png", "x" : 420, "y" : 105, "h" : 35, "w" : 35,
+			"destfile" : "altaria01.txt"
+		}
+	]
+}
